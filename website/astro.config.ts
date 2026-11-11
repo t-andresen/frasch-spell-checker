@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { siteCheck } from './integrations/siteCheck';
 import { defaultLanguage, languages } from './src/i18n/languages';
 
 // https://astro.build/config
@@ -9,6 +10,10 @@ export default defineConfig({
 	base: '/frasch-spell-checker',
 
 	output: 'static',
+
+	// Checks the finished files at the end of every build. A broken link, a missing
+	// file, a load from another server or a script stops the build.
+	integrations: [siteCheck()],
 
 	// Every page address ends with a slash, like the folders GitHub Pages serves.
 	trailingSlash: 'always',

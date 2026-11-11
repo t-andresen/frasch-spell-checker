@@ -28,14 +28,27 @@ Run all of them in `website/`. The Node version is pinned in `website/.nvmrc` an
 | `npm ci` | Installs the packages exactly as the lock file lists them |
 | `npm run dev` | Starts the local preview at `http://localhost:4321/frasch-spell-checker/` |
 | `npm run check` | Type check of `.astro` and `.ts` files |
-| `npm run build` | Type check, then build into `website/dist/` |
+| `npm run build` | Type check, then build into `website/dist/`, then the checks of the built site |
 | `npm run preview` | Serves the finished build from `website/dist/` |
-| `npm test` | Tests of the text markup |
+| `npm test` | Tests of the text markup and of the checks of the built site |
 | `npm run check:launch` | Fails and lists every placeholder that is left in `website/src/`. Not part of the build, because placeholders are expected until all text is written |
 
 An agent starts the local preview with `npx astro dev --background` and stops it with `npx astro dev stop`, so the command does not block the session.
 
 Run `npm run build` before you open a pull request. It must pass.
+
+## Checks of the built site
+
+Every `npm run build` ends with checks of the files in `website/dist/`. A problem stops the build and is listed with its file. The checks report:
+
+- an internal link to a page, or to an `id` on a page, that does not exist
+- an image, download or other file of the site that does not exist. Upper and lower case must match
+- anything a page or stylesheet loads from another server. A normal link to another site is allowed
+- JavaScript: a `<script>` tag, an attribute like `onclick`, a `javascript:` address
+
+The checks are in `website/src/lib/siteCheck.ts`. `website/integrations/siteCheck.ts` connects them to the build.
+
+The workflow `.github/workflows/website-check.yml` runs `npm ci`, `npm run check`, `npm test` and `npm run build` on every push and pull request. It publishes nothing.
 
 ## Website conventions
 
@@ -71,4 +84,4 @@ Nothing else has a meaning. HTML in a text is shown as plain characters. The bui
 
 ### Files that Node runs directly
 
-`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
+`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/siteCheck.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
