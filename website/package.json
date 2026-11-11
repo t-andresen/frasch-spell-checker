@@ -10,6 +10,8 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "check": "astro check",
+    "check:launch": "node scripts/check-launch.ts",
+    "test": "node --test \"src/**/*.test.ts\"",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -18,6 +20,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
+    "@types/node": "^24.19.2",
     "typescript": "^6.0.3"
   }
 }

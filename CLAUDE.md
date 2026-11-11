@@ -30,6 +30,8 @@ Run all of them in `website/`. The Node version is pinned in `website/.nvmrc` an
 | `npm run check` | Type check of `.astro` and `.ts` files |
 | `npm run build` | Type check, then build into `website/dist/` |
 | `npm run preview` | Serves the finished build from `website/dist/` |
+| `npm test` | Tests of the text markup |
+| `npm run check:launch` | Fails and lists every placeholder that is left in `website/src/`. Not part of the build, because placeholders are expected until all text is written |
 
 An agent starts the local preview with `npx astro dev --background` and stops it with `npx astro dev stop`, so the command does not block the session.
 
@@ -41,4 +43,32 @@ Run `npm run build` before you open a pull request. It must pass.
 - **The Frisian `lang` tag** will change to a dialect tag later. Read it from `htmlLang` in the `languages` module. Never write it as a string anywhere else.
 - **Internal links** always go through `website/src/lib/links.ts`: `pageLink(language, page)` for pages and `fileLink(path)` for files. A link written by hand misses the base path and breaks on GitHub Pages.
 - **Address and base path** (`site`, `base`) are set only in `website/astro.config.ts`.
-- **Text per language** lives in typed data such as `Record<LanguageKey, ...>`, so the type check fails when a language lacks a text.
+- **Text per language** lives in typed text modules, so the type check fails when a language lacks a text. See "Website text" below.
+
+## Website text
+
+No text is written into a page file. Paths below are inside `website/src/`. Order, screenshots and link addresses never go into a language module. So they cannot differ between languages.
+
+### Placeholders
+
+A text that is not written yet holds a placeholder that names its language and its key, for example `[[frr:word.steps.moveFile.text]]`. This applies to all three languages. `npm run check:launch` finds every text of this form in `src/`, also in Markdown files. Do not write a literal placeholder into a comment in `src/`, because the launch check would report it.
+
+### Emphasis and links in a text
+
+The types `Plain` and `Rich` in `text/types.ts` say what a text can contain.
+
+- `Plain` is shown exactly as written. Pages output it with `{text}`.
+- `Rich` can contain the markup below. Pages output it with `<RichText text={...} />` from `components/RichText.astro`.
+
+| Markup | Result |
+| :-- | :-- |
+| `*text*` | Emphasis |
+| `**text**` | Strong emphasis |
+| `[text](linkName)` | Link. `linkName` is a name from `structure/textLinks.ts`, never an address |
+| `\*`, `\[`, `\]`, `\\` | The literal character. In a TypeScript string, write the backslash twice |
+
+Nothing else has a meaning. HTML in a text is shown as plain characters. The build stops when a `Rich` text has a marker without its closing partner or an unknown link name. The parser is `lib/richText.ts`.
+
+### Files that Node runs directly
+
+`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.

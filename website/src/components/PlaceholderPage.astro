@@ -3,30 +3,17 @@
  * Temporary page of the scaffold. It shows that the routing per language works.
  * The real layout and pages replace it later.
  */
-import { getLanguage, languages, type LanguageKey } from '../i18n/languages';
+import { getLanguage, languages } from '../i18n/languages';
 import { pageLink } from '../lib/links';
+import { getText } from '../text';
+import RichText from './RichText.astro';
 
 // Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
 const language = getLanguage(Astro.currentLocale);
 
-// TypeScript reports an error if a language is missing here.
-// The maintainer writes all North Frisian text. Until then a visible placeholder stands in.
-const text: Record<LanguageKey, { heading: string; note: string }> = {
-	frr: {
-		heading: '[[frr:placeholder-heading]]',
-		note: '[[frr:placeholder-note]]',
-	},
-	de: {
-		heading: 'Platzhalterseite',
-		note: 'Diese Seite zeigt, dass die deutsche Sprachversion gebaut wird.',
-	},
-	en: {
-		heading: 'Placeholder page',
-		note: 'This page shows that the English language version is built.',
-	},
-};
-
-const { heading, note } = text[language.key];
+// All text comes from the text modules in `src/text/`. Until the real text is
+// written, each text is a visible placeholder that names its key.
+const text = getText(language.key);
 ---
 
 <!doctype html>
@@ -37,8 +24,8 @@ const { heading, note } = text[language.key];
 		<title>Frasch Ruchtschriwing</title>
 	</head>
 	<body>
-		<h1>{heading}</h1>
-		<p>{note}</p>
+		<h1>{text.start.title}</h1>
+		<p><RichText text={text.start.intro} /></p>
 		<nav>
 			<ul>
 				{
