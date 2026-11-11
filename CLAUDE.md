@@ -44,6 +44,11 @@ Run `npm run build` before you open a pull request. It must pass.
 - **Internal links** always go through `website/src/lib/links.ts`: `pageLink(language, page)` for pages and `fileLink(path)` for files. A link written by hand misses the base path and breaks on GitHub Pages.
 - **Address and base path** (`site`, `base`) are set only in `website/astro.config.ts`.
 - **Text per language** lives in typed text modules, so the type check fails when a language lacks a text. See "Website text" below.
+- **Every page uses the layout** `website/src/layouts/Layout.astro`. It supplies `<head>`, skip link, flag stripe, header with menu and language switcher, and footer. A page passes its page id and its title: `<Layout page="about" title={text.about.title}>`.
+- **All styles are in one file**, `website/src/styles/global.css`. No `<style>` blocks in components and no `style` attributes. Colours, type sizes and spacing are custom properties at the top of that file. Use them instead of new values. A new colour needs a value for the light and for the dark version, and its contrast must meet WCAG AA in both.
+- **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, and `NoteBox.astro`. The class `lead` marks the intro paragraph below the page title. Each component file starts with an example of its use.
+- **The site name** is defined only in `website/src/structure/site.ts`.
+- **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. Both are copies of the files in `resources/`.
 
 ## Website text
 

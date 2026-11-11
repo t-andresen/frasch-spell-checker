@@ -1,0 +1,27 @@
+---
+/**
+ * Note box: a text the visitor should not miss, set off by a tinted background.
+ *
+ *   <NoteBox heading={note.heading}>
+ *     <p><RichText text={note.text} /></p>
+ *   </NoteBox>
+ *
+ * - `heading`: optional heading of the box.
+ * - `headingLevel`: 2 for a box directly below the page title, 3 for a box
+ *   inside a section that has its own heading. Default is 2.
+ */
+import type { Plain } from '../text/types';
+
+interface Props {
+	heading?: Plain;
+	headingLevel?: 2 | 3;
+}
+
+const { heading, headingLevel = 2 } = Astro.props;
+const Heading = `h${headingLevel}` as const;
+---
+
+<div class="note" role="note">
+	{heading !== undefined && <Heading class="note-heading">{heading}</Heading>}
+	<slot />
+</div>
