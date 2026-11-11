@@ -26,6 +26,7 @@ const text = getText(language.key);
 	<body>
 		<h1>{text.start.title}</h1>
 		<p><RichText text={text.start.intro} /></p>
+		<p><a href={pageLink(language.key, 'does-not-exist')}>Deliberately broken link for the test in issue 8</a></p>
 		<nav>
 			<ul>
 				{
