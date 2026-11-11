@@ -1,0 +1,26 @@
+---
+/**
+ * Shows a text that can contain emphasis and links, for example
+ * `<p><RichText text={text.start.intro} /></p>`.
+ *
+ * The markup is described in `src/lib/richText.ts`. A link in the text names
+ * an entry of `src/structure/textLinks.ts`. The build stops if the markup is
+ * wrong or the link name is unknown.
+ */
+import { getLanguage } from '../i18n/languages';
+import { targetLink } from '../lib/links';
+import { parseRichText, richTextToHtml } from '../lib/richText';
+import { textLinkNames, textLinks } from '../structure/textLinks';
+
+interface Props {
+	text: string;
+}
+
+const language = getLanguage(Astro.currentLocale);
+const nodes = parseRichText(Astro.props.text, textLinkNames);
+
+// `richTextToHtml` escapes all text and all addresses. That makes `set:html` safe here.
+const html = richTextToHtml(nodes, (name) => targetLink(language.key, textLinks[name]));
+---
+
+<Fragment set:html={html} />
