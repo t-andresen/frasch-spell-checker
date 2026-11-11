@@ -1,16 +1,12 @@
-# Builds and checks the website on every push and every pull request.
-# It publishes nothing. Publishing is added in issue 26.
 name: Website check
 
 on:
   push:
   pull_request:
 
-# The workflow only reads the repo.
 permissions:
   contents: read
 
-# A newer push to the same branch or pull request stops the older run.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -46,7 +42,5 @@ jobs:
       - name: Tests
         run: npm test
 
-      # The build ends with the checks of the built site: links, files,
-      # nothing from other servers, no JavaScript. See website/integrations/siteCheck.ts.
       - name: Build and check the built site
         run: npm run build

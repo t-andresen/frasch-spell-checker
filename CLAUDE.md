@@ -37,19 +37,6 @@ An agent starts the local preview with `npx astro dev --background` and stops it
 
 Run `npm run build` before you open a pull request. It must pass.
 
-## Checks of the built site
-
-Every `npm run build` ends with checks of the files in `website/dist/`. A problem stops the build and is listed with its file. The checks report:
-
-- an internal link to a page, or to an `id` on a page, that does not exist
-- an image, download or other file of the site that does not exist. Upper and lower case must match
-- anything a page or stylesheet loads from another server. A normal link to another site is allowed
-- JavaScript: a `<script>` tag, an attribute like `onclick`, a `javascript:` address
-
-The checks are in `website/src/lib/siteCheck.ts`. `website/integrations/siteCheck.ts` connects them to the build.
-
-The workflow `.github/workflows/website-check.yml` runs `npm ci`, `npm run check`, `npm test` and `npm run build` on every push and pull request. It publishes nothing.
-
 ## Website conventions
 
 - **Languages** are defined only in `website/src/i18n/languages.ts`: internal key, address prefix, HTML `lang` tag, display name. North Frisian is the default and has no prefix. German is under `/de/`, English under `/en/`.
