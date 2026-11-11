@@ -1,0 +1,46 @@
+name: Website check
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check and build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: website
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v7
+        with:
+          # No later step talks to GitHub. So the access token is not kept.
+          persist-credentials: false
+
+      - name: Install the pinned Node version
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: website/.nvmrc
+          cache: npm
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install the packages
+        run: npm ci
+
+      - name: Type check
+        run: npm run check
+
+      - name: Tests
+        run: npm test
+
+      - name: Build and check the built site
+        run: npm run build
