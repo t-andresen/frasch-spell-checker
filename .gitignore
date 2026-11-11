@@ -1,0 +1,11 @@
+# Website: installed packages, build output, files Astro generates
+website/node_modules/
+website/dist/
+website/.astro/
+
+# Environment variables
+.env
+.env.*
+
+# npm logs
+npm-debug.log*
