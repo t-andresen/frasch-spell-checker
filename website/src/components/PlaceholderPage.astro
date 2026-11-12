@@ -1,12 +1,28 @@
 ---
 /**
- * Temporary page of the scaffold. It shows that the routing per language works.
- * The real layout and pages replace it later.
+ * Temporary content of a page. It shows that the layout, the routing per
+ * language and the building blocks work. The issues for the real pages
+ * replace it page by page.
+ *
+ * `page` is the id of the page from `src/structure/pages.ts`.
  */
-import { getLanguage, languages } from '../i18n/languages';
+import { getLanguage } from '../i18n/languages';
+import Layout from '../layouts/Layout.astro';
 import { pageLink } from '../lib/links';
+import { getPage, type PageId } from '../structure/pages';
+import { startPage } from '../structure/start';
 import { getText } from '../text';
+import Button from './Button.astro';
+import NoteBox from './NoteBox.astro';
 import RichText from './RichText.astro';
+import Tile from './Tile.astro';
+import TileGroup from './TileGroup.astro';
+
+interface Props {
+	page: PageId;
+}
+
+const { page } = Astro.props;
 
 // Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
 const language = getLanguage(Astro.currentLocale);
@@ -14,35 +30,41 @@ const language = getLanguage(Astro.currentLocale);
 // All text comes from the text modules in `src/text/`. Until the real text is
 // written, each text is a visible placeholder that names its key.
 const text = getText(language.key);
+
+// The legal page has no text module, because its text will be Markdown.
+// Until then its title is the label of the footer link.
+const title = page === 'legal' ? text.labels.footer.legal : text[page].title;
 ---
 
-<!doctype html>
-<html lang={language.htmlLang}>
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Frasch Ruchtschriwing</title>
-	</head>
-	<body>
-		<h1>{text.start.title}</h1>
-		<p><RichText text={text.start.intro} /></p>
-		<nav>
-			<ul>
-				{
-					languages.map((other) => (
-						<li>
-							<a
-								href={pageLink(other.key)}
-								lang={other.htmlLang}
-								hreflang={other.htmlLang}
-								aria-current={other.key === language.key ? 'page' : undefined}
-							>
-								{other.name}
-							</a>
-						</li>
-					))
-				}
-			</ul>
-		</nav>
-	</body>
-</html>
+<Layout page={page} title={title}>
+	<h1>{title}</h1>
+	{page !== 'legal' && <p class="lead"><RichText text={text[page].intro} /></p>}
+
+	{
+		page === 'start' && (
+			<>
+				<TileGroup>
+					{startPage.tiles.map((tile) => (
+						<Tile
+							href={pageLink(language.key, getPage(tile.page).slug)}
+							title={text.start.tiles[tile.id].title}
+							text={text.start.tiles[tile.id].text}
+						/>
+					))}
+				</TileGroup>
+				<NoteBox heading={text.start.toolNote.heading}>
+					<p><RichText text={text.start.toolNote.text} /></p>
+				</NoteBox>
+			</>
+		)
+	}
+
+	{
+		// The download does not exist yet. So the button only leads to the top of this page.
+		(page === 'libreOffice' || page === 'word') && (
+			<p>
+				<Button href="#main" icon="download">{text.labels.install.download}</Button>
+			</p>
+		)
+	}
+</Layout>

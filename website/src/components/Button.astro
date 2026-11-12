@@ -1,0 +1,41 @@
+---
+/**
+ * Button: a large link for the main action of a page, for example a download.
+ *
+ *   <Button href={fileLink('downloads/file.oxt')} icon="download" download>{text.labels.install.download}</Button>
+ *
+ * - `href`: where the button leads. Build it with `pageLink()` or `fileLink()`.
+ * - `quiet`: an outlined button for a second, less important action.
+ * - `icon`: a small picture in front of the text. Only `download` exists so far.
+ * - `download`: the browser saves the file instead of opening it.
+ */
+interface Props {
+	href: string;
+	quiet?: boolean;
+	icon?: 'download';
+	download?: boolean;
+}
+
+const { href, quiet = false, icon, download = false } = Astro.props;
+---
+
+<a class:list={['button', { 'button-quiet': quiet }]} href={href} download={download}>
+	{
+		icon === 'download' && (
+			<svg
+				viewBox="0 0 24 24"
+				width="24"
+				height="24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2.25"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				aria-hidden="true"
+			>
+				<path d="M12 4v11M7 11l5 5 5-5M5 20h14" />
+			</svg>
+		)
+	}
+	<slot />
+</a>

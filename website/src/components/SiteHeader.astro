@@ -1,0 +1,62 @@
+---
+/**
+ * The header of every page: icon and name, the language switcher and the menu.
+ *
+ * `page` is the id of the page that is shown. Its menu entry is marked, and
+ * each entry of the language switcher leads to this page in that language.
+ */
+import { getLanguage, languages } from '../i18n/languages';
+import { fileLink, pageLink } from '../lib/links';
+import { getPage, menuPages, type PageId } from '../structure/pages';
+import { siteName, siteNameLanguage } from '../structure/site';
+import { getText } from '../text';
+
+interface Props {
+	page: PageId;
+}
+
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key);
+const currentPage = getPage(Astro.props.page);
+---
+
+<header class="site-header page-width">
+	<div class="masthead">
+		<a class="site-name" href={pageLink(language.key)}>
+			<!-- The icon is decoration next to the name. So its description is empty. -->
+			<img src={fileLink('icon.svg')} alt="" width="40" height="40" />
+			<span lang={getLanguage(siteNameLanguage).htmlLang}>{siteName}</span>
+		</a>
+		<nav class="languages" aria-label={text.labels.languageSwitcherName}>
+			<ul>
+				{
+					languages.map((other) => (
+						<li>
+							<a
+								href={pageLink(other.key, currentPage.slug)}
+								lang={other.htmlLang}
+								hreflang={other.htmlLang}
+								aria-current={other.key === language.key ? 'page' : undefined}
+							>
+								{other.name}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+	</div>
+	<nav class="menu" aria-label={text.labels.menuName}>
+		<ul>
+			{
+				menuPages.map((entry) => (
+					<li>
+						<a href={pageLink(language.key, entry.slug)} aria-current={entry.id === currentPage.id ? 'page' : undefined}>
+							{text.labels.menu[entry.id]}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</header>

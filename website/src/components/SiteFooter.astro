@@ -1,0 +1,23 @@
+---
+/**
+ * The footer of every page: the name of the site, a link to the legal page
+ * and a link to the GitHub repo.
+ */
+import { getLanguage } from '../i18n/languages';
+import { pageLink, targetLink } from '../lib/links';
+import { getPage } from '../structure/pages';
+import { siteName, siteNameLanguage } from '../structure/site';
+import { textLinks } from '../structure/textLinks';
+import { getText } from '../text';
+
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key);
+---
+
+<footer class="site-footer page-width">
+	<p lang={getLanguage(siteNameLanguage).htmlLang}>{siteName}</p>
+	<ul>
+		<li><a href={pageLink(language.key, getPage('legal').slug)}>{text.labels.footer.legal}</a></li>
+		<li><a href={targetLink(language.key, textLinks.repo)}>{text.labels.footer.repo}</a></li>
+	</ul>
+</footer>

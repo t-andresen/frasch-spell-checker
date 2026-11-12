@@ -1,0 +1,56 @@
+---
+/**
+ * The frame of every page: `<head>`, skip link, flag stripe, header, main area
+ * and footer. A page puts its content between the tags:
+ *
+ *   <Layout page="about" title={text.about.title}> ... </Layout>
+ *
+ * - `page`: the id of the page from `src/structure/pages.ts`. The header marks
+ *   its menu entry, and the language switcher leads to the same page.
+ * - `title`: the title of the page for the browser tab.
+ *
+ * All styles come from `src/styles/global.css`.
+ */
+import '../styles/global.css';
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import { getLanguage } from '../i18n/languages';
+import { fileLink } from '../lib/links';
+import type { PageId } from '../structure/pages';
+import { siteName } from '../structure/site';
+import { getText } from '../text';
+import type { Plain } from '../text/types';
+
+interface Props {
+	page: PageId;
+	title: Plain;
+}
+
+const { page, title } = Astro.props;
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key);
+---
+
+<!doctype html>
+<html lang={language.htmlLang}>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="color-scheme" content="light dark" />
+		<title>{title} – {siteName}</title>
+		<!-- A browser that cannot show the SVG icon takes the PNG. -->
+		<link rel="icon" type="image/png" sizes="128x128" href={fileLink('icon-128.png')} />
+		<link rel="icon" type="image/svg+xml" href={fileLink('icon.svg')} />
+	</head>
+	<body>
+		<a class="skip-link" href="#main">{text.labels.skipLink}</a>
+		<div class="flag-stripe"></div>
+		<SiteHeader page={page} />
+		<main id="main" class="page-width">
+			<slot />
+		</main>
+		<SiteFooter />
+	</body>
+</html>
