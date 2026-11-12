@@ -4,9 +4,10 @@
  *
  *   <StartPage />
  *
- * Order on the page: title, intro, the note that the spell checker is a tool
- * and no standard, one tile per program, and below the tiles what is in
- * preparation and what is not supported.
+ * Order on the page: title, intro, one tile per program, the note that the
+ * spell checker is a tool and no standard, and last what is in preparation
+ * and what is not supported. The tiles come first, so that a visitor sees
+ * where to click without scrolling.
  *
  * The tiles and their order come from `src/structure/start.ts`.
  * All text comes from the text modules in `src/text/`.
@@ -32,10 +33,6 @@ const text = getText(language.key).start;
 	<p class="lead"><RichText text={text.intro} /></p>
 	<p><RichText text={text.variety} /></p>
 
-	<NoteBox heading={text.toolNote.heading}>
-		<p><RichText text={text.toolNote.text} /></p>
-	</NoteBox>
-
 	<TileGroup>
 		{
 			startPage.tiles.map((tile) => (
@@ -47,6 +44,10 @@ const text = getText(language.key).start;
 			))
 		}
 	</TileGroup>
+
+	<NoteBox heading={text.toolNote.heading}>
+		<p><RichText text={text.toolNote.text} /></p>
+	</NoteBox>
 
 	<p><RichText text={text.macNote} /></p>
 	<p><RichText text={text.notSupported} /></p>
