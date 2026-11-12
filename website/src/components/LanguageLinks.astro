@@ -1,0 +1,38 @@
+---
+/**
+ * The list of the languages. Each entry leads to the same page in that
+ * language. The header uses it twice: next to the name on a wide window and
+ * below the rule on a phone. Only one of the two shows.
+ *
+ *   <LanguageLinks page={currentPage.id} />
+ *
+ * `page` is the id of the page that is shown.
+ */
+import { getLanguage, languages } from '../i18n/languages';
+import { pageLink } from '../lib/links';
+import { getPage, type PageId } from '../structure/pages';
+
+interface Props {
+	page: PageId;
+}
+
+const language = getLanguage(Astro.currentLocale);
+const currentPage = getPage(Astro.props.page);
+---
+
+<ul>
+	{
+		languages.map((other) => (
+			<li>
+				<a
+					href={pageLink(other.key, currentPage.slug)}
+					lang={other.htmlLang}
+					hreflang={other.htmlLang}
+					aria-current={other.key === language.key ? 'page' : undefined}
+				>
+					{other.name}
+				</a>
+			</li>
+		))
+	}
+</ul>

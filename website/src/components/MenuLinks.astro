@@ -1,0 +1,34 @@
+---
+/**
+ * The list of the menu pages. The header uses it twice: as a row on a wide
+ * window and inside the menu button on a phone. Only one of the two shows.
+ *
+ *   <MenuLinks page={currentPage.id} />
+ *
+ * `page` is the id of the page that is shown. Its entry is marked.
+ */
+import { getLanguage } from '../i18n/languages';
+import { pageLink } from '../lib/links';
+import { menuPages, type PageId } from '../structure/pages';
+import { getText } from '../text';
+
+interface Props {
+	page: PageId;
+}
+
+const { page } = Astro.props;
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key);
+---
+
+<ul>
+	{
+		menuPages.map((entry) => (
+			<li>
+				<a href={pageLink(language.key, entry.slug)} aria-current={entry.id === page ? 'page' : undefined}>
+					{text.labels.menu[entry.id]}
+				</a>
+			</li>
+		))
+	}
+</ul>

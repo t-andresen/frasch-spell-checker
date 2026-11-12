@@ -4,20 +4,33 @@
  *
  * `page` is the id of the page that is shown. Its menu entry is marked, and
  * each entry of the language switcher leads to this page in that language.
+ *
+ * The header has two forms, and the stylesheet shows one of them:
+ * - Wide window: the languages stand next to the name, the menu is a row below the rule.
+ * - Phone: a menu button stands next to the name, the languages are a row below the rule.
+ *
+ * So the menu and the language switcher are in the page twice. A browser and a
+ * screen reader skip the form that is not shown. This keeps the keyboard order
+ * the same as the visible order in both forms.
+ *
+ * The menu button is the `<summary>` of a `<details>` element. The browser
+ * opens and closes it. No JavaScript is needed.
  */
-import { getLanguage, languages } from '../i18n/languages';
+import { getLanguage } from '../i18n/languages';
 import { fileLink, pageLink } from '../lib/links';
-import { getPage, menuPages, type PageId } from '../structure/pages';
+import type { PageId } from '../structure/pages';
 import { siteName, siteNameLanguage } from '../structure/site';
 import { getText } from '../text';
+import LanguageLinks from './LanguageLinks.astro';
+import MenuLinks from './MenuLinks.astro';
 
 interface Props {
 	page: PageId;
 }
 
+const { page } = Astro.props;
 const language = getLanguage(Astro.currentLocale);
 const text = getText(language.key);
-const currentPage = getPage(Astro.props.page);
 ---
 
 <header class="site-header page-width">
@@ -27,36 +40,39 @@ const currentPage = getPage(Astro.props.page);
 			<img src={fileLink('icon.svg')} alt="" width="40" height="40" />
 			<span lang={getLanguage(siteNameLanguage).htmlLang}>{siteName}</span>
 		</a>
-		<nav class="languages" aria-label={text.labels.languageSwitcherName}>
-			<ul>
-				{
-					languages.map((other) => (
-						<li>
-							<a
-								href={pageLink(other.key, currentPage.slug)}
-								lang={other.htmlLang}
-								hreflang={other.htmlLang}
-								aria-current={other.key === language.key ? 'page' : undefined}
-							>
-								{other.name}
-							</a>
-						</li>
-					))
-				}
-			</ul>
+		<nav class="languages only-wide" aria-label={text.labels.languageSwitcherName}>
+			<LanguageLinks page={page} />
+		</nav>
+		<nav class="menu menu-drop only-phone" aria-label={text.labels.menuName}>
+			<details>
+				<summary>
+					<span class="menu-button">
+						<!-- Three lines while the menu is closed, a cross while it is open. -->
+						<svg
+							viewBox="0 0 24 24"
+							width="24"
+							height="24"
+							fill="none"
+							stroke="currentColor"
+							stroke-width="2.25"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							aria-hidden="true"
+						>
+							<path class="icon-lines" d="M4 7h16M4 12h16M4 17h16"></path>
+							<path class="icon-cross" d="M6 6l12 12M18 6 6 18"></path>
+						</svg>
+						{text.labels.menuButton}
+					</span>
+				</summary>
+				<MenuLinks page={page} />
+			</details>
 		</nav>
 	</div>
-	<nav class="menu" aria-label={text.labels.menuName}>
-		<ul>
-			{
-				menuPages.map((entry) => (
-					<li>
-						<a href={pageLink(language.key, entry.slug)} aria-current={entry.id === currentPage.id ? 'page' : undefined}>
-							{text.labels.menu[entry.id]}
-						</a>
-					</li>
-				))
-			}
-		</ul>
+	<nav class="menu menu-row only-wide" aria-label={text.labels.menuName}>
+		<MenuLinks page={page} />
+	</nav>
+	<nav class="languages only-phone" aria-label={text.labels.languageSwitcherName}>
+		<LanguageLinks page={page} />
 	</nav>
 </header>

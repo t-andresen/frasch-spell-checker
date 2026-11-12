@@ -3,6 +3,7 @@ import type { LabelsText } from '../types';
 export default {
 	skipLink: '[[de:labels.skipLink]]',
 	menuName: '[[de:labels.menuName]]',
+	menuButton: '[[de:labels.menuButton]]',
 	menu: {
 		start: '[[de:labels.menu.start]]',
 		libreOffice: '[[de:labels.menu.libreOffice]]',

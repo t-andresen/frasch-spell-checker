@@ -34,6 +34,8 @@ export type LabelsText = {
 	skipLink: Plain;
 	/** Name of the menu for screen readers. */
 	menuName: Plain;
+	/** Text of the button that opens the menu on a phone. */
+	menuButton: Plain;
 	/** The menu entries. */
 	menu: Record<MenuPageId, Plain>;
 	/** Name of the language switcher for screen readers. */
