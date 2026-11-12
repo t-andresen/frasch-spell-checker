@@ -29,6 +29,8 @@ STORY: The visitor sees the name, finds their program as a headword, follows the
 
 FIRST VIEWPORT: Stripe of 8px. Masthead row: icon and name on the left, the three language names in italics on the far right. A 2px ink rule. Below it the menu row, flush left with the icon, the current page as an inverted ink tab that touches the rule. Then the page title in bold serif up to 3.5rem, the intro at a measure of about 34em, and the two program tiles side by side as ruled boxes with a blue underlined headword and an arrow. The tiles are the primary action.
 
+PHONE VIEWPORT (below 36rem): Chosen by the maintainer over two other prototypes. Masthead row: icon and name on the left, a bordered "Menu" button with a three-line icon on the right. The 2px ink rule. Below it the three language names, always visible, because a visitor who lands on the Frisian page must find their language without opening anything. The button is a `<details>` summary. The open menu hangs from the rule as a ruled list as wide as the content, and the button turns into an inverted ink tab with a cross.
+
 SIGNATURE INTERACTION AND MOTION: No scripts. Hover and keyboard focus, both with the same feedback: a tile's headword underline thickens and its arrow moves 4px, the underline of a menu entry thickens, a button darkens. 140ms ease-out, on colour, underline and transform only. No motion when the device asks for reduced motion.
 
 FORM: The Wordbook, the printed dictionary page. Position 1 of 7 on the ordered list, chosen by the maintainer over the rolled position 6. seed:883796ba54abf69c

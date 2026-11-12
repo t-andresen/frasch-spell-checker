@@ -109,6 +109,16 @@ components:
     typography: "{typography.body}"
     padding: "0 1rem"
     height: "3rem"
+  menu-button:
+    backgroundColor: "transparent"
+    textColor: "{colors.ink}"
+    typography: "{typography.body}"
+    rounded: "{rounded.radius}"
+    padding: "0 0.75rem"
+    height: "3rem"
+  menu-button-open:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.paper}"
   skip-link:
     backgroundColor: "{colors.ink}"
     textColor: "{colors.paper}"
@@ -136,7 +146,7 @@ The site has no JavaScript and loads no font files. Every effect is plain CSS. T
 - Corners of 2px. No shadows.
 - A flag stripe of 8px (0.5rem) across the top of every page.
 - Blue marks what can be clicked. Gold marks a note.
-- The current page hangs from the header line as a dark tab, like the thumb index of a dictionary.
+- On a wide window the current page hangs from the header line as a dark tab, like the thumb index of a dictionary. On a phone the open menu hangs from the same line.
 - In a tile and in a note box the heading stands at the left and the text below it is indented, like a dictionary entry.
 
 ## Colors
@@ -218,14 +228,14 @@ The content sits in one centred column. It is at most 65rem wide. To its left an
 From top to bottom every page has the same frame:
 
 1. The flag stripe, 0.5rem high, across the full window.
-2. The header line: icon (2.5rem) and site name at the left, the language names at the far right. A 2px ink line closes it.
-3. The menu row, starting at the left edge below the icon.
+2. The header line: icon (2.5rem) and site name at the left. At the far right stand the language names, and on a phone the menu button. A 2px ink line closes it.
+3. The row below the line, starting at the left edge below the icon. On a wide window it is the menu. On a phone it is the language names.
 4. The main area. It has clamp(2.5rem, 1.5rem + 4vw, 4.5rem) of space above and 6rem below.
 5. The footer, with a 1px ink line above it. On a short page it stays at the bottom of the window.
 
 Spacing uses nine steps from 0.25rem to 6rem. A section heading has 3rem above it and 0.75rem below. A paragraph has 1rem below it. Tile groups and note boxes have 2rem above and below.
 
-Tiles stand side by side when each can be at least 18rem wide. Otherwise they stand below each other. There is one fixed breakpoint: below a window width of 36rem the menu becomes a table of two columns. The header line wraps by itself when the name and the languages do not fit in one row.
+Tiles stand side by side when each can be at least 18rem wide. Otherwise they stand below each other. There is one fixed breakpoint: below a window width of 36rem the header takes its phone form. The menu folds into a button next to the site name, and the language names move below the line. On a wide window the header line wraps by itself when the name and the languages do not fit in one row.
 
 Everything a visitor can click or tap is at least 3rem high. A button is at least 3.5rem high.
 
@@ -257,7 +267,7 @@ There are three kinds of line:
 
 The flag stripe is three equal parts with hard edges: gold, red, blue.
 
-Icons are drawn lines, 24 units wide, with a stroke of 2.25 and round ends. They take the colour of the text next to them. Two exist: a download arrow in the button and an arrow to the right in the tile.
+Icons are drawn lines, 24 units wide, with a stroke of 2.25 and round ends. They take the colour of the text next to them. Four exist: a download arrow in the button, an arrow to the right in the tile, and three lines and a cross in the menu button of the phone.
 
 ## Components
 
@@ -300,10 +310,13 @@ A text the visitor should not miss. It is marked as a note for screen readers.
 ### Navigation
 
 - **Site name:** Icon and name, bold, in ink, in the Title size. Not underlined. Under the pointer the name gets an underline.
-- **Menu:** A row of links in the Body size with 2rem between them. Each is 3rem high. Under the pointer the underline gets thicker (0.07em to 0.14em).
-- **Current page:** A dark tab in ink with paper-coloured bold text and 1rem of padding left and right. It touches the 2px line above it.
-- **Language switcher:** The written-out names of the languages in the Label size, at the far right of the header line. See The Upright Is Here Rule.
-- **Phone:** Below 36rem the menu is a table of two columns.
+- **Menu:** On a wide window, a row of links in the Body size with 2rem between them. Each is 3rem high. Under the pointer the underline gets thicker (0.07em to 0.14em).
+- **Current page:** On a wide window, a dark tab in ink with paper-coloured bold text and 1rem of padding left and right. It touches the 2px line above it.
+- **Language switcher:** The written-out names of the languages in the Label size. On a wide window they stand at the far right of the header line. On a phone they are a row below the line, so a visitor can change the language without opening anything. See The Upright Is Here Rule.
+- **Phone, header line:** Below 36rem the site name is in the Body size and can break between its two words. Then name and menu button fit in one row from a width of 360px. On a narrower phone the button moves below the name.
+- **Phone, menu button:** A box with a 2px ink border and 2px corners, 3rem high, with an icon of three lines and the word for "menu" in bold. Under the pointer it gets the hover ground. While the menu is open the button is dark like the tab of the current page, and the icon is a cross. The button is the `<summary>` of a `<details>` element, so it works without JavaScript.
+- **Phone, open menu:** A list on the tile surface with a 2px ink border. It hangs from the 2px line, is as wide as the content and lies over the page. Each entry is 3rem high, with a hairline between entries. The current page is bold, in ink and not underlined. The keyboard focus ring lies inside the entry.
+- **Two forms in one page:** The page holds the menu and the language switcher twice, once for each form. The stylesheet shows one form. So the keyboard order is the same as the visible order at every width.
 - **Footer:** The site name in bold at the left, two links at the right, all in the Label size.
 
 ### Links

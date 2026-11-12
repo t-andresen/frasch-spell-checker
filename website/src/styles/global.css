@@ -276,8 +276,30 @@ hr {
 	padding-block-start: var(--space-m);
 }
 
-/* First row: icon and name on the left, the languages on the far right. */
+/*
+ * The header has two forms. `components/SiteHeader.astro`
+ *   Wide window: the languages stand next to the name, the menu is a row below the rule.
+ *   Phone: a menu button stands next to the name, the languages are a row below the rule.
+ * The menu and the languages are in the page twice. These two classes show one form.
+ */
+.only-phone {
+	display: none;
+}
+
+@media (max-width: 36rem) {
+	.only-wide {
+		display: none;
+	}
+
+	.only-phone {
+		display: block;
+	}
+}
+
+/* First row: icon and name on the left. On the far right the languages, on a phone the menu button. */
 .masthead {
+	/* The open menu of the phone is placed against this row. */
+	position: relative;
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
@@ -347,19 +369,19 @@ hr {
 	text-decoration-line: none;
 }
 
-/* Second row: the menu. It starts at the left edge, below the icon. */
-.menu ul {
-	gap: 0 var(--space-xl);
-}
-
 .menu a {
 	display: inline-flex;
 	align-items: center;
 	min-block-size: var(--target);
 }
 
+/* Wide window, second row: the menu. It starts at the left edge, below the icon. */
+.menu-row ul {
+	gap: 0 var(--space-xl);
+}
+
 /* The page that is shown: a dark tab that hangs from the rule above, like the thumb index of a dictionary. */
-.menu a[aria-current] {
+.menu-row a[aria-current] {
 	padding-inline: var(--space-m);
 	/* The border has the colour of the tab. It shows the shape when the device replaces all colours. */
 	border: var(--rule-thick) solid var(--ink);
@@ -370,12 +392,113 @@ hr {
 	text-decoration-line: none;
 }
 
-/* On a phone the entries do not fit in one row. They form a table of two columns instead of a ragged second row. */
+/*
+ * Phone: the menu button next to the name. It is the summary of a <details>
+ * element. The browser opens and closes it, so no JavaScript is needed.
+ */
+.menu-drop summary {
+	display: block;
+	/* Hides the small triangle that browsers put in front of a summary. */
+	list-style: none;
+	cursor: pointer;
+}
+
+.menu-drop summary::-webkit-details-marker {
+	display: none;
+}
+
+.menu-button {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs);
+	min-block-size: var(--target);
+	padding-inline: var(--space-s);
+	border: var(--rule-thick) solid var(--ink);
+	border-radius: var(--radius);
+	font-weight: 700;
+	line-height: 1.2;
+}
+
+.menu-drop summary:hover .menu-button {
+	background: var(--hover-ground);
+}
+
+/* While the menu is open the button is dark, like the tab of the current page on a wide window. */
+.menu-drop [open] summary .menu-button {
+	background: var(--ink);
+	color: var(--paper);
+}
+
+.menu-button svg {
+	flex: none;
+	inline-size: 1.25rem;
+	block-size: 1.25rem;
+}
+
+/* The icon shows three lines while the menu is closed and a cross while it is open. */
+.menu-button .icon-cross,
+.menu-drop [open] .icon-lines {
+	display: none;
+}
+
+.menu-drop [open] .icon-cross {
+	display: inline;
+}
+
+/* The open menu hangs from the rule below the name and is as wide as the content. It lies over the page. */
+.menu-drop ul {
+	position: absolute;
+	inset-block-start: 100%;
+	inset-inline: 0;
+	z-index: 1;
+	display: block;
+	border: var(--rule-thick) solid var(--ink);
+	border-radius: 0 0 var(--radius) var(--radius);
+	background: var(--surface);
+}
+
+.menu-drop li + li {
+	border-block-start: var(--rule-thin) solid var(--hairline);
+}
+
+.menu-drop a {
+	display: flex;
+	padding-inline: var(--space-m);
+}
+
+.menu-drop a:hover,
+.menu-drop a:focus-visible {
+	background: var(--hover-ground);
+}
+
+/* The ring stays inside the frame of the list. */
+.menu-drop a:focus-visible {
+	outline-offset: calc(-1 * var(--focus-width));
+}
+
+.menu-drop a[aria-current] {
+	color: var(--ink);
+	font-weight: 700;
+	text-decoration-line: none;
+}
+
 @media (max-width: 36rem) {
-	.menu ul {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 0 var(--space-m);
+	.masthead {
+		gap: 0 var(--space-s);
+	}
+
+	/*
+	 * The name takes the free width. When the row gets tight, it breaks between its two words and not inside one.
+	 * It is one step smaller here, so that name and menu button still fit in one row on a phone of 360px.
+	 */
+	.site-name {
+		flex: 1 1 9rem;
+		font-size: var(--text-body);
+		overflow-wrap: normal;
+	}
+
+	.menu-drop {
+		flex: none;
 	}
 }
 
@@ -589,6 +712,7 @@ main > :last-child {
 @media (prefers-reduced-motion: no-preference) {
 	a,
 	.button,
+	.menu-button,
 	.tile,
 	.tile-title,
 	.tile-title span {
