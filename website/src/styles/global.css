@@ -5,7 +5,7 @@
  *   1. Design values (colours, type, spacing) as custom properties
  *   2. Base styles for plain HTML elements
  *   3. Page frame: skip link, flag stripe, header, main area, footer
- *   4. Building blocks: lead text, button, tile, note box
+ *   4. Building blocks: lead text, button, action row, tile, note box
  *   5. Movement and special display modes
  *
  * The look follows a printed dictionary page: serif text on near-white paper,
@@ -597,6 +597,26 @@ main > :last-child {
 .button-quiet:focus-visible {
 	background: var(--hover-ground);
 	color: var(--link-strong);
+}
+
+/*
+ * Action row: a button and, next to it, a plain link for a second, less
+ * important action. On a phone the link moves below the button.
+ *   <p class="actions"><Button ...>...</Button> <a href="...">...</a></p>
+ */
+.actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-xs) var(--space-l);
+	margin-block: var(--space-l);
+}
+
+/* The plain link is as high as everything else a visitor can tap. */
+.actions > a:not(.button) {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: var(--target);
 }
 
 /* Tiles: large link cards, for example one per program. `components/TileGroup.astro` and `components/Tile.astro` */

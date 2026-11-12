@@ -17,6 +17,8 @@ export const textLinks = {
 	aboutPage: { kind: 'page', page: 'about' },
 	repo: { kind: 'external', href: 'https://github.com/t-andresen/frasch-spell-checker' },
 	issues: { kind: 'external', href: 'https://github.com/t-andresen/frasch-spell-checker/issues' },
+	/** The digitised second edition (2002) of the Frasch Uurdebök at Kiel University Library. */
+	dictionary: { kind: 'external', href: 'https://doi.org/10.38071/2025-01302-7' },
 } as const satisfies Record<string, LinkTarget>;
 
 export type TextLinkName = keyof typeof textLinks;

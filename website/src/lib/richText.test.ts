@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { parseRichText, richTextToHtml } from './richText.ts';
+import { findLinkNames, parseRichText, richTextToHtml } from './richText.ts';
 
 const linkNames = ['repo', 'aboutPage'] as const;
 const addresses = { repo: 'https://example.org/?a=1&b=2', aboutPage: '/about/' };
@@ -82,4 +82,10 @@ test('an unknown link name throws an error that lists the known names', () => {
 
 test('an address instead of a link name throws an error', () => {
 	assert.throws(() => html('[x](https://example.org)'), /Markup error/);
+});
+
+test('the link names of a text are found, also inside emphasis', () => {
+	const names = (source: string) => findLinkNames(parseRichText(source, linkNames));
+	assert.deepEqual(names('No link here, only *emphasis*.'), []);
+	assert.deepEqual(names('[a](repo), **[b](aboutPage)** and [c](repo)'), ['repo', 'aboutPage', 'repo']);
 });

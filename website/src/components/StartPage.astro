@@ -1,0 +1,53 @@
+---
+/**
+ * The content of the start page. The page files of all three languages use it:
+ *
+ *   <StartPage />
+ *
+ * Order on the page: title, intro, the note that the spell checker is a tool
+ * and no standard, one tile per program, and below the tiles what is in
+ * preparation and what is not supported.
+ *
+ * The tiles and their order come from `src/structure/start.ts`.
+ * All text comes from the text modules in `src/text/`.
+ */
+import { getLanguage } from '../i18n/languages';
+import Layout from '../layouts/Layout.astro';
+import { pageLink } from '../lib/links';
+import { getPage } from '../structure/pages';
+import { startPage } from '../structure/start';
+import { getText } from '../text';
+import NoteBox from './NoteBox.astro';
+import RichText from './RichText.astro';
+import Tile from './Tile.astro';
+import TileGroup from './TileGroup.astro';
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key).start;
+---
+
+<Layout page="start" title={text.title}>
+	<h1>{text.title}</h1>
+	<p class="lead"><RichText text={text.intro} /></p>
+	<p><RichText text={text.variety} /></p>
+
+	<NoteBox heading={text.toolNote.heading}>
+		<p><RichText text={text.toolNote.text} /></p>
+	</NoteBox>
+
+	<TileGroup>
+		{
+			startPage.tiles.map((tile) => (
+				<Tile
+					href={pageLink(language.key, getPage(tile.page).slug)}
+					title={text.tiles[tile.id].title}
+					text={text.tiles[tile.id].text}
+				/>
+			))
+		}
+	</TileGroup>
+
+	<p><RichText text={text.macNote} /></p>
+	<p><RichText text={text.notSupported} /></p>
+</Layout>

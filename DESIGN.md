@@ -285,6 +285,15 @@ Large and plain. For the main action of a page, for example a download.
 - **Quiet:** For a second, less important action next to a main button. No ground, blue text and a 2px border in the text colour. Under the pointer it gets the hover ground.
 - **Forced colours:** The primary button has a transparent 2px border. It shows the shape of the button when the device replaces all colours.
 
+### Action Row
+
+A button with a smaller, plain link next to it for a second action. For example the mail button on the About page with the link to the GitHub issues. It is a paragraph with the class `actions`.
+
+- **Layout:** Button and link stand in one row, centred on each other, with 1.5rem between them. When they do not fit, the link moves below the button with 0.5rem between them.
+- **Link:** A normal text link in the Body size. It is 3rem high, like everything a visitor can tap.
+- **Spacing:** 1.5rem above and below the row.
+- **Choice:** Use a quiet button when both actions have nearly the same weight. Use the plain link when the second action is clearly less important.
+
 ### Tiles
 
 Large link cards, one per choice, for example one per program. The whole tile is one link. On the start page the tiles are the main action.
