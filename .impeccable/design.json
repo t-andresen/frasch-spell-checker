@@ -1,0 +1,600 @@
+{
+	"schemaVersion": 2,
+	"generatedAt": "2026-11-12T12:46:25.423Z",
+	"title": "Design System: Frasch Ruchtschriwing",
+	"extensions": {
+		"colorMeta": {
+			"flag-blue": {
+				"role": "primary",
+				"displayName": "Flag Blue",
+				"canonical": "oklch(43.8% 0.137 260)",
+				"tonalRamp": [
+					"oklch(15% 0.062 260)",
+					"oklch(27% 0.103 260)",
+					"oklch(38% 0.130 260)",
+					"oklch(50% 0.137 260)",
+					"oklch(62% 0.137 260)",
+					"oklch(74% 0.117 260)",
+					"oklch(85% 0.076 260)",
+					"oklch(95% 0.034 260)"
+				]
+			},
+			"link-strong": {
+				"role": "primary",
+				"displayName": "Deep Flag Blue",
+				"canonical": "oklch(36.8% 0.114 260)",
+				"tonalRamp": [
+					"oklch(15% 0.051 260)",
+					"oklch(27% 0.086 260)",
+					"oklch(38% 0.108 260)",
+					"oklch(50% 0.114 260)",
+					"oklch(62% 0.114 260)",
+					"oklch(74% 0.097 260)",
+					"oklch(85% 0.063 260)",
+					"oklch(95% 0.029 260)"
+				]
+			},
+			"link-dark": {
+				"role": "primary",
+				"displayName": "Pale Sky Blue",
+				"canonical": "oklch(81.4% 0.076 262)",
+				"tonalRamp": [
+					"oklch(15% 0.034 262)",
+					"oklch(27% 0.057 262)",
+					"oklch(38% 0.072 262)",
+					"oklch(50% 0.076 262)",
+					"oklch(62% 0.076 262)",
+					"oklch(74% 0.064 262)",
+					"oklch(85% 0.042 262)",
+					"oklch(95% 0.019 262)"
+				],
+				"scheme": "dark"
+			},
+			"link-strong-dark": {
+				"role": "primary",
+				"displayName": "Lighter Sky Blue",
+				"canonical": "oklch(88.2% 0.050 263)",
+				"tonalRamp": [
+					"oklch(15% 0.022 263)",
+					"oklch(27% 0.037 263)",
+					"oklch(38% 0.047 263)",
+					"oklch(50% 0.050 263)",
+					"oklch(62% 0.050 263)",
+					"oklch(74% 0.042 263)",
+					"oklch(85% 0.027 263)",
+					"oklch(95% 0.012 263)"
+				],
+				"scheme": "dark"
+			},
+			"action-text": {
+				"role": "primary",
+				"displayName": "Button White",
+				"canonical": "oklch(100.0% 0.000 0)",
+				"tonalRamp": [
+					"oklch(15% 0.000 0)",
+					"oklch(27% 0.000 0)",
+					"oklch(38% 0.000 0)",
+					"oklch(50% 0.000 0)",
+					"oklch(62% 0.000 0)",
+					"oklch(74% 0.000 0)",
+					"oklch(85% 0.000 0)",
+					"oklch(95% 0.000 0)"
+				]
+			},
+			"action-text-dark": {
+				"role": "primary",
+				"displayName": "Button Ink",
+				"canonical": "oklch(19.5% 0.013 264)",
+				"tonalRamp": [
+					"oklch(15% 0.006 264)",
+					"oklch(27% 0.010 264)",
+					"oklch(38% 0.012 264)",
+					"oklch(50% 0.013 264)",
+					"oklch(62% 0.013 264)",
+					"oklch(74% 0.011 264)",
+					"oklch(85% 0.007 264)",
+					"oklch(95% 0.003 264)"
+				],
+				"scheme": "dark"
+			},
+			"flag-gold": {
+				"role": "secondary",
+				"displayName": "Flag Gold",
+				"canonical": "oklch(84.6% 0.173 91)",
+				"tonalRamp": [
+					"oklch(15% 0.072 91)",
+					"oklch(27% 0.120 91)",
+					"oklch(38% 0.152 91)",
+					"oklch(50% 0.160 91)",
+					"oklch(62% 0.160 91)",
+					"oklch(74% 0.136 91)",
+					"oklch(85% 0.088 91)",
+					"oklch(95% 0.040 91)"
+				]
+			},
+			"note-ground": {
+				"role": "secondary",
+				"displayName": "Note Gold",
+				"canonical": "oklch(95.5% 0.065 97)",
+				"tonalRamp": [
+					"oklch(15% 0.029 97)",
+					"oklch(27% 0.049 97)",
+					"oklch(38% 0.062 97)",
+					"oklch(50% 0.065 97)",
+					"oklch(62% 0.065 97)",
+					"oklch(74% 0.056 97)",
+					"oklch(85% 0.036 97)",
+					"oklch(95% 0.016 97)"
+				]
+			},
+			"note-edge": {
+				"role": "secondary",
+				"displayName": "Note Edge",
+				"canonical": "oklch(66.5% 0.136 91)",
+				"tonalRamp": [
+					"oklch(15% 0.061 91)",
+					"oklch(27% 0.102 91)",
+					"oklch(38% 0.129 91)",
+					"oklch(50% 0.136 91)",
+					"oklch(62% 0.136 91)",
+					"oklch(74% 0.115 91)",
+					"oklch(85% 0.075 91)",
+					"oklch(95% 0.034 91)"
+				]
+			},
+			"note-ground-dark": {
+				"role": "secondary",
+				"displayName": "Dark Note Gold",
+				"canonical": "oklch(27.2% 0.046 98)",
+				"tonalRamp": [
+					"oklch(15% 0.021 98)",
+					"oklch(27% 0.035 98)",
+					"oklch(38% 0.044 98)",
+					"oklch(50% 0.046 98)",
+					"oklch(62% 0.046 98)",
+					"oklch(74% 0.039 98)",
+					"oklch(85% 0.025 98)",
+					"oklch(95% 0.012 98)"
+				],
+				"scheme": "dark"
+			},
+			"note-edge-dark": {
+				"role": "secondary",
+				"displayName": "Dark Note Edge",
+				"canonical": "oklch(55.4% 0.113 93)",
+				"tonalRamp": [
+					"oklch(15% 0.051 93)",
+					"oklch(27% 0.085 93)",
+					"oklch(38% 0.108 93)",
+					"oklch(50% 0.113 93)",
+					"oklch(62% 0.113 93)",
+					"oklch(74% 0.096 93)",
+					"oklch(85% 0.062 93)",
+					"oklch(95% 0.028 93)"
+				],
+				"scheme": "dark"
+			},
+			"flag-red": {
+				"role": "tertiary",
+				"displayName": "Flag Red",
+				"canonical": "oklch(55.1% 0.211 25)",
+				"tonalRamp": [
+					"oklch(15% 0.072 25)",
+					"oklch(27% 0.120 25)",
+					"oklch(38% 0.152 25)",
+					"oklch(50% 0.160 25)",
+					"oklch(62% 0.160 25)",
+					"oklch(74% 0.136 25)",
+					"oklch(85% 0.088 25)",
+					"oklch(95% 0.040 25)"
+				]
+			},
+			"paper": {
+				"role": "neutral",
+				"displayName": "Paper",
+				"canonical": "oklch(98.4% 0.004 106)",
+				"tonalRamp": [
+					"oklch(15% 0.002 106)",
+					"oklch(27% 0.003 106)",
+					"oklch(38% 0.004 106)",
+					"oklch(50% 0.004 106)",
+					"oklch(62% 0.004 106)",
+					"oklch(74% 0.003 106)",
+					"oklch(85% 0.002 106)",
+					"oklch(95% 0.001 106)"
+				]
+			},
+			"surface": {
+				"role": "neutral",
+				"displayName": "Surface",
+				"canonical": "oklch(100.0% 0.000 0)",
+				"tonalRamp": [
+					"oklch(15% 0.000 0)",
+					"oklch(27% 0.000 0)",
+					"oklch(38% 0.000 0)",
+					"oklch(50% 0.000 0)",
+					"oklch(62% 0.000 0)",
+					"oklch(74% 0.000 0)",
+					"oklch(85% 0.000 0)",
+					"oklch(95% 0.000 0)"
+				]
+			},
+			"ink": {
+				"role": "neutral",
+				"displayName": "Ink",
+				"canonical": "oklch(21.4% 0.012 271)",
+				"tonalRamp": [
+					"oklch(15% 0.005 271)",
+					"oklch(27% 0.009 271)",
+					"oklch(38% 0.012 271)",
+					"oklch(50% 0.012 271)",
+					"oklch(62% 0.012 271)",
+					"oklch(74% 0.010 271)",
+					"oklch(85% 0.007 271)",
+					"oklch(95% 0.003 271)"
+				]
+			},
+			"hairline": {
+				"role": "neutral",
+				"displayName": "Hairline",
+				"canonical": "oklch(83.1% 0.010 107)",
+				"tonalRamp": [
+					"oklch(15% 0.004 107)",
+					"oklch(27% 0.007 107)",
+					"oklch(38% 0.009 107)",
+					"oklch(50% 0.010 107)",
+					"oklch(62% 0.010 107)",
+					"oklch(74% 0.008 107)",
+					"oklch(85% 0.005 107)",
+					"oklch(95% 0.002 107)"
+				]
+			},
+			"hover-ground": {
+				"role": "neutral",
+				"displayName": "Hover Ground",
+				"canonical": "oklch(95.8% 0.009 265)",
+				"tonalRamp": [
+					"oklch(15% 0.004 265)",
+					"oklch(27% 0.006 265)",
+					"oklch(38% 0.008 265)",
+					"oklch(50% 0.009 265)",
+					"oklch(62% 0.009 265)",
+					"oklch(74% 0.007 265)",
+					"oklch(85% 0.005 265)",
+					"oklch(95% 0.002 265)"
+				]
+			},
+			"paper-dark": {
+				"role": "neutral",
+				"displayName": "Dark Paper",
+				"canonical": "oklch(20.5% 0.010 268)",
+				"tonalRamp": [
+					"oklch(15% 0.005 268)",
+					"oklch(27% 0.008 268)",
+					"oklch(38% 0.010 268)",
+					"oklch(50% 0.010 268)",
+					"oklch(62% 0.010 268)",
+					"oklch(74% 0.009 268)",
+					"oklch(85% 0.006 268)",
+					"oklch(95% 0.003 268)"
+				],
+				"scheme": "dark"
+			},
+			"surface-dark": {
+				"role": "neutral",
+				"displayName": "Dark Surface",
+				"canonical": "oklch(24.4% 0.014 267)",
+				"tonalRamp": [
+					"oklch(15% 0.006 267)",
+					"oklch(27% 0.011 267)",
+					"oklch(38% 0.013 267)",
+					"oklch(50% 0.014 267)",
+					"oklch(62% 0.014 267)",
+					"oklch(74% 0.012 267)",
+					"oklch(85% 0.008 267)",
+					"oklch(95% 0.004 267)"
+				],
+				"scheme": "dark"
+			},
+			"ink-dark": {
+				"role": "neutral",
+				"displayName": "Dark Ink",
+				"canonical": "oklch(93.7% 0.010 94)",
+				"tonalRamp": [
+					"oklch(15% 0.004 94)",
+					"oklch(27% 0.007 94)",
+					"oklch(38% 0.009 94)",
+					"oklch(50% 0.010 94)",
+					"oklch(62% 0.010 94)",
+					"oklch(74% 0.008 94)",
+					"oklch(85% 0.005 94)",
+					"oklch(95% 0.002 94)"
+				],
+				"scheme": "dark"
+			},
+			"hairline-dark": {
+				"role": "neutral",
+				"displayName": "Dark Hairline",
+				"canonical": "oklch(36.4% 0.018 268)",
+				"tonalRamp": [
+					"oklch(15% 0.008 268)",
+					"oklch(27% 0.014 268)",
+					"oklch(38% 0.017 268)",
+					"oklch(50% 0.018 268)",
+					"oklch(62% 0.018 268)",
+					"oklch(74% 0.015 268)",
+					"oklch(85% 0.010 268)",
+					"oklch(95% 0.005 268)"
+				],
+				"scheme": "dark"
+			},
+			"hover-ground-dark": {
+				"role": "neutral",
+				"displayName": "Dark Hover Ground",
+				"canonical": "oklch(28.9% 0.021 266)",
+				"tonalRamp": [
+					"oklch(15% 0.010 266)",
+					"oklch(27% 0.016 266)",
+					"oklch(38% 0.020 266)",
+					"oklch(50% 0.021 266)",
+					"oklch(62% 0.021 266)",
+					"oklch(74% 0.018 266)",
+					"oklch(85% 0.012 266)",
+					"oklch(95% 0.005 266)"
+				],
+				"scheme": "dark"
+			}
+		},
+		"typographyMeta": {
+			"display": {
+				"displayName": "Display",
+				"purpose": "The page title (h1). At most 50rem wide."
+			},
+			"headline": {
+				"displayName": "Headline",
+				"purpose": "Section headings (h2) and the title of a tile."
+			},
+			"title": {
+				"displayName": "Title",
+				"purpose": "Sub-headings (h3), the heading of a note box, the site name in the header and the text of a button."
+			},
+			"lead": {
+				"displayName": "Lead",
+				"purpose": "The intro paragraph directly below the page title."
+			},
+			"body": {
+				"displayName": "Body",
+				"purpose": "Running text and the menu. A line is at most 42.5rem wide."
+			},
+			"label": {
+				"displayName": "Label",
+				"purpose": "The language names in the header and the footer. The smallest text on the site."
+			}
+		},
+		"shadows": [],
+		"motion": [
+			{
+				"name": "fast",
+				"value": "140ms",
+				"purpose": "Length of every transition: colour, background, underline thickness, the tile arrow and the skip link."
+			},
+			{
+				"name": "ease-out",
+				"value": "cubic-bezier(0.16, 1, 0.3, 1)",
+				"purpose": "Curve of every transition. Transitions run only when the device does not ask for less movement."
+			}
+		],
+		"breakpoints": [
+			{
+				"name": "menu-two-columns",
+				"value": "36rem",
+				"purpose": "Below this window width the menu becomes a table of two columns."
+			}
+		],
+		"sizes": [
+			{
+				"name": "page-width",
+				"value": "65rem",
+				"purpose": "Widest the content gets."
+			},
+			{
+				"name": "measure",
+				"value": "42.5rem",
+				"purpose": "Widest a line of running text gets, about 70 characters."
+			},
+			{
+				"name": "gutter",
+				"value": "clamp(1.25rem, 5vw, 2.5rem)",
+				"purpose": "Free space left and right of the content."
+			},
+			{
+				"name": "target",
+				"value": "3rem",
+				"purpose": "Smallest height of something to click or tap."
+			},
+			{
+				"name": "button-height",
+				"value": "3.5rem",
+				"purpose": "Smallest height of a button."
+			},
+			{
+				"name": "stripe-height",
+				"value": "0.5rem",
+				"purpose": "Height of the flag stripe."
+			},
+			{
+				"name": "entry-indent",
+				"value": "1.4em",
+				"purpose": "How far the text of a tile or note box stands in from its heading."
+			},
+			{
+				"name": "rule-thin",
+				"value": "1px",
+				"purpose": "Footer line, tile border, note box border, divider in the text."
+			},
+			{
+				"name": "rule-thick",
+				"value": "2px",
+				"purpose": "Line below the header, button border, border of the current-page tab."
+			},
+			{
+				"name": "focus-width",
+				"value": "3px",
+				"purpose": "Width of the keyboard focus ring. It stands 3px away from the element."
+			}
+		],
+		"colorSchemes": {
+			"note": "Token names ending in -dark replace their light partner under prefers-color-scheme: dark. The flag colours are the same in both versions.",
+			"focus": {
+				"light": "flag-blue",
+				"dark": "flag-gold"
+			},
+			"link": {
+				"light": "flag-blue",
+				"dark": "link-dark"
+			},
+			"actionGround": {
+				"light": "flag-blue",
+				"dark": "link-dark"
+			},
+			"selectionGround": "flag-gold",
+			"selectionText": "ink"
+		}
+	},
+	"components": [
+		{
+			"name": "Button",
+			"kind": "button",
+			"refersTo": "button",
+			"description": "The main action of a page, for example a download. Optional download icon in front of the text.",
+			"html": "<a class=\"ds-button\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 4v11M7 11l5 5 5-5M5 20h14\"/></svg>Download</a>",
+			"css": ".ds-button { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-s); min-block-size: var(--button-height); padding: var(--space-s) var(--space-xl); border-radius: var(--radius); font-family: var(--font); font-size: var(--text-lead); font-weight: 700; line-height: 1.25; text-decoration: none; transition: color var(--fast) var(--ease-out), background-color var(--fast) var(--ease-out); border: var(--rule-thick) solid transparent; background: var(--action-ground); color: var(--action-text); } .ds-button:hover, .ds-button:focus-visible { background: var(--action-ground-strong); } .ds-button:active { transform: translateY(1px); } .ds-button svg { flex: none; inline-size: 1.25em; block-size: 1.25em; } .ds-button:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Quiet Button",
+			"kind": "button",
+			"refersTo": "button-quiet",
+			"description": "A second, less important action next to a main button.",
+			"html": "<a class=\"ds-button-quiet\" href=\"#\">Extension site</a>",
+			"css": ".ds-button-quiet { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-s); min-block-size: var(--button-height); padding: var(--space-s) var(--space-xl); border-radius: var(--radius); font-family: var(--font); font-size: var(--text-lead); font-weight: 700; line-height: 1.25; text-decoration: none; transition: color var(--fast) var(--ease-out), background-color var(--fast) var(--ease-out); border: var(--rule-thick) solid currentColor; background: transparent; color: var(--link); } .ds-button-quiet:hover, .ds-button-quiet:focus-visible { background: var(--hover-ground); color: var(--link-strong); } .ds-button-quiet:active { transform: translateY(1px); } .ds-button-quiet:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Tile",
+			"kind": "card",
+			"refersTo": "tile",
+			"description": "A large link card, one per choice. The whole tile is one link. Title at the left, text indented below it.",
+			"html": "<a class=\"ds-tile\" href=\"#\"><h2 class=\"ds-tile-title\"><span>LibreOffice</span><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 12h16M13 5l7 7-7 7\"/></svg></h2><p class=\"ds-tile-text\">Sample text of a tile. One short sentence.</p></a>",
+			"css": ".ds-tile { display: flex; flex-direction: column; gap: var(--space-xs); max-inline-size: 24rem; padding: var(--space-l) var(--space-l) var(--space-xl); border: var(--rule-thin) solid var(--ink); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font); font-size: var(--text-body); line-height: 1.6; text-decoration: none; transition: background-color var(--fast) var(--ease-out); } .ds-tile:hover, .ds-tile:focus-visible { background: var(--hover-ground); } .ds-tile-title { display: flex; align-items: center; justify-content: space-between; gap: var(--space-m); margin: 0; color: var(--link); font-size: var(--text-h2); font-weight: 700; line-height: 1.2; letter-spacing: -0.01em; transition: color var(--fast) var(--ease-out); } .ds-tile-title span { text-decoration-line: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.18em; transition: text-decoration-thickness var(--fast) var(--ease-out); } .ds-tile:hover .ds-tile-title, .ds-tile:focus-visible .ds-tile-title { color: var(--link-strong); } .ds-tile:hover .ds-tile-title span, .ds-tile:focus-visible .ds-tile-title span { text-decoration-thickness: 0.12em; } .ds-tile-title svg { flex: none; inline-size: 1em; block-size: 1em; transition: transform var(--fast) var(--ease-out); } .ds-tile:hover .ds-tile-title svg, .ds-tile:focus-visible .ds-tile-title svg { transform: translateX(var(--space-2xs)); } .ds-tile-text { margin: 0; padding-inline-start: var(--entry-indent); } .ds-tile:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Note Box",
+			"kind": "custom",
+			"refersTo": "note-box",
+			"description": "A text the visitor should not miss, on a gold-tinted ground. Optional heading, text indented below it.",
+			"html": "<div class=\"ds-note\" role=\"note\"><h2 class=\"ds-note-heading\">Sample heading</h2><p>Sample text of a note box, with <a href=\"#\">a link</a>.</p></div>",
+			"css": ".ds-note { max-inline-size: var(--measure); padding: var(--space-l); border: var(--rule-thin) solid var(--note-edge); border-radius: var(--radius); background: var(--note-ground); color: var(--ink); font-family: var(--font); font-size: var(--text-body); line-height: 1.6; } .ds-note-heading { margin-block: 0 var(--space-xs); font-size: var(--text-lead); font-weight: 700; line-height: 1.2; } .ds-note p { margin: 0; padding-inline-start: var(--entry-indent); } .ds-note a { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.2em; transition: color var(--fast) var(--ease-out), text-decoration-thickness var(--fast) var(--ease-out); } .ds-note a:hover { color: var(--link-strong); text-decoration-thickness: 0.14em; } .ds-note a:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Header with Menu",
+			"kind": "nav",
+			"refersTo": "menu-entry-current",
+			"description": "Site name and languages above a 2px ink line. Below it the menu. The current page is a dark tab that hangs from the line.",
+			"html": "<div class=\"ds-header\"><div class=\"ds-masthead\"><a class=\"ds-site-name\" href=\"#\">Frasch Ruchtschriwing</a><ul class=\"ds-languages\"><li><a href=\"#\" aria-current=\"page\">English</a></li><li><a href=\"#\">Deutsch</a></li></ul></div><ul class=\"ds-menu\"><li><a href=\"#\" aria-current=\"page\">Start</a></li><li><a href=\"#\">LibreOffice</a></li><li><a href=\"#\">MS Word</a></li><li><a href=\"#\">About</a></li></ul></div>",
+			"css": ".ds-header { font-family: var(--font); font-size: var(--text-body); line-height: 1.6; color: var(--ink); } .ds-header ul { display: flex; flex-wrap: wrap; margin: 0; padding: 0; list-style: none; } .ds-header a { display: inline-flex; align-items: center; min-block-size: var(--target); color: var(--link); text-decoration-line: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.2em; transition: color var(--fast) var(--ease-out), text-decoration-thickness var(--fast) var(--ease-out); } .ds-header a:hover { color: var(--link-strong); text-decoration-thickness: 0.14em; } .ds-masthead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 var(--space-xl); padding-block-end: var(--space-xs); border-block-end: var(--rule-thick) solid var(--ink); } .ds-header a.ds-site-name { color: var(--ink); font-size: var(--text-lead); font-weight: 700; line-height: 1.2; text-decoration: none; } .ds-header a.ds-site-name:hover { color: var(--ink); text-decoration-line: underline; } .ds-languages { gap: 0 var(--space-l); } .ds-languages a { font-size: var(--text-small); font-style: italic; } .ds-header .ds-languages a[aria-current] { color: var(--ink); font-style: normal; font-weight: 700; text-decoration-line: none; } .ds-menu { gap: 0 var(--space-xl); } .ds-header .ds-menu a[aria-current] { padding-inline: var(--space-m); border: var(--rule-thick) solid var(--ink); border-radius: 0 0 var(--radius) var(--radius); background: var(--ink); color: var(--paper); font-weight: 700; text-decoration-line: none; } .ds-header a:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Text Link",
+			"kind": "custom",
+			"description": "A link in running text. Blue with a thin underline that gets thicker under the pointer.",
+			"html": "<p class=\"ds-text\">Running text with <a href=\"#\">a link</a> in it.</p>",
+			"css": ".ds-text { margin: 0; color: var(--ink); font-family: var(--font); font-size: var(--text-body); line-height: 1.6; } .ds-text a { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.2em; transition: color var(--fast) var(--ease-out), text-decoration-thickness var(--fast) var(--ease-out); } .ds-text a:hover { color: var(--link-strong); text-decoration-thickness: 0.14em; } .ds-text a:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
+		},
+		{
+			"name": "Flag Stripe",
+			"kind": "custom",
+			"description": "The three flag colours in equal parts across the top of every page.",
+			"html": "<div class=\"ds-flag-stripe\"></div>",
+			"css": ".ds-flag-stripe { block-size: var(--stripe-height); background: linear-gradient(to right, var(--flag-gold) 0 33.333%, var(--flag-red) 33.333% 66.667%, var(--flag-blue) 66.667% 100%); }"
+		}
+	],
+	"narrative": {
+		"northStar": "The Wordbook",
+		"overview": "The site looks like a page of a printed dictionary. Serif text stands on near-white paper. Thin ink lines divide the page. Headings are bold, like the headwords of a dictionary. A visitor finds their program the way they find a word: by its bold name at the left edge.\n\nThe page is calm and large. The text is big, the buttons are big, and one line of text is never longer than about 70 characters. There are no shadows, no gradients as decoration and no rounded cards. The three flag colours appear as a stripe across the top of every page. Below the stripe they are accents only.\n\nThe site has no JavaScript and loads no font files. Every effect is plain CSS. The dark version follows the setting of the device.",
+		"keyCharacteristics": [
+			"One serif typeface from the device, for everything.",
+			"Near-white paper and blue-black ink, with ink lines of 1px and 2px.",
+			"Corners of 2px. No shadows.",
+			"A flag stripe of 8px (0.5rem) across the top of every page.",
+			"Blue marks what can be clicked. Gold marks a note.",
+			"The current page hangs from the header line as a dark tab, like the thumb index of a dictionary.",
+			"In a tile and in a note box the heading stands at the left and the text below it is indented, like a dictionary entry."
+		],
+		"rules": [
+			{
+				"name": "The Blue Means Click Rule",
+				"body": "Below the flag stripe, blue marks only what a visitor can click: links, buttons and the focus ring around them in the light version. Text that is not a link is never blue.",
+				"section": "colors"
+			},
+			{
+				"name": "The Gold Is Ground Rule",
+				"body": "Gold is a background or a ring, never text. It appears as the note box ground, as the ground of selected text, as the dark focus ring and in the stripe.",
+				"section": "colors"
+			},
+			{
+				"name": "The Two Versions Rule",
+				"body": "Every colour that has a job has a light and a dark value. A new colour needs both, and both must meet WCAG AA for the text on it.",
+				"section": "colors"
+			},
+			{
+				"name": "The One Serif Rule",
+				"body": "There is one font stack and two weights: 400 for text and 700 for headings, buttons and emphasis. No second typeface.",
+				"section": "typography"
+			},
+			{
+				"name": "The Large Text Rule",
+				"body": "No text is smaller than 1.0625rem (17px at the usual browser setting). Body text is at least 1.125rem (18px).",
+				"section": "typography"
+			},
+			{
+				"name": "The Upright Is Here Rule",
+				"body": "In the language switcher the other languages are italic and underlined. The language of the page is upright, bold and not underlined. This is the only use of italics in the layout.",
+				"section": "typography"
+			},
+			{
+				"name": "The Left Edge Rule",
+				"body": "Icon, site name, menu, page title and text all start at the same left edge. Nothing is centred.",
+				"section": "layout"
+			},
+			{
+				"name": "The Measure Rule",
+				"body": "Running text is never wider than 42.5rem. Only a group of tiles, and a note box next to one, use the full width of the column.",
+				"section": "layout"
+			},
+			{
+				"name": "The Ink Line Rule",
+				"body": "Parts of the page are divided by lines and borders, never by shadows.",
+				"section": "elevation"
+			}
+		],
+		"dos": [
+			"Do use the custom properties at the top of `website/src/styles/global.css` for every colour, type size and spacing value.",
+			"Do give a new colour a light and a dark value, and check that both meet WCAG AA.",
+			"Do start headings and text at the left edge of the column, and keep running text within 42.5rem.",
+			"Do make everything that can be clicked at least 3rem high.",
+			"Do underline links. An underline is how a visitor sees that words can be clicked.",
+			"Do give pointer hover and keyboard focus the same feedback.",
+			"Do put every transition inside the `prefers-reduced-motion: no-preference` block.",
+			"Do use the indented entry shape for new boxes: heading at the left, text indented by 1.4em."
+		],
+		"donts": [
+			"Don't use gold as a text colour.",
+			"Don't use blue for text or boxes that cannot be clicked.",
+			"Don't use red outside the flag stripe and the icon.",
+			"Don't add shadows, larger corner radii or decorative gradients.",
+			"Don't add a second typeface or load a font file.",
+			"Don't set text smaller than 1.0625rem.",
+			"Don't centre headings or text.",
+			"Don't add JavaScript, `<style>` blocks in components or `style` attributes. All styles are in the one stylesheet."
+		]
+	}
+}
