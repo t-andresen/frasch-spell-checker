@@ -1,0 +1,59 @@
+---
+/**
+ * The content of the legal page: Impressum and privacy statement. The page
+ * file `src/pages/[...legal].astro` uses it for every language:
+ *
+ *   <LegalPage />
+ *
+ * The text is the Markdown file of the language in `src/content/legal/`. The
+ * head of the file supplies the title. A translation also supplies the note
+ * that another version counts legally. The page shows it in a note box with a
+ * link to that version. `src/structure/legal.ts` names that version.
+ */
+import { render } from 'astro:content';
+import { getLanguage } from '../i18n/languages';
+import Layout from '../layouts/Layout.astro';
+import { getLegalFiles } from '../lib/legal';
+import { checkLegalHeadings } from '../lib/legalFiles';
+import { pageLink } from '../lib/links';
+import { legalPage } from '../structure/legal';
+import { getPage } from '../structure/pages';
+import NoteBox from './NoteBox.astro';
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+
+const file = (await getLegalFiles()).get(language.key);
+if (file === undefined) {
+	throw new Error(`The language "${language.key}" has no legal page: src/content/legal/${language.key}.md does not exist.`);
+}
+
+// `Content` is the text of the file as HTML. `headings` lists its headings.
+const { Content, headings } = await render(file);
+checkLegalHeadings(
+	language.key,
+	headings.map((heading) => heading.depth),
+);
+
+const { title, translationNote } = file.data;
+const bindingLanguage = getLanguage(legalPage.bindingLanguage);
+---
+
+<Layout page="legal" title={title}>
+	<h1>{title}</h1>
+
+	{
+		translationNote !== undefined && (
+			<NoteBox>
+				<p>
+					{translationNote.text}{' '}
+					<a href={pageLink(bindingLanguage.key, getPage('legal').slug)} hreflang={bindingLanguage.htmlLang}>
+						{translationNote.linkText}
+					</a>
+				</p>
+			</NoteBox>
+		)
+	}
+
+	<Content />
+</Layout>
