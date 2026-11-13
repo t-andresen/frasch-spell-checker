@@ -12,8 +12,16 @@ import type { LanguageKey } from '../i18n/languages';
  *   A language that is not listed is optional. While its file is missing, its
  *   footer links to the legal page in `bindingLanguage`. Adding the file later
  *   needs no code change.
+ * - `switcherFallbackLanguage`: on the legal page, the entry of the language
+ *   switcher for a language without a file leads to the legal page in this
+ *   language. It must be one of the `requiredLanguages`.
  */
 export const legalPage = {
 	bindingLanguage: 'de',
 	requiredLanguages: ['de', 'en'],
-} as const satisfies { bindingLanguage: LanguageKey; requiredLanguages: readonly LanguageKey[] };
+	switcherFallbackLanguage: 'en',
+} as const satisfies {
+	bindingLanguage: LanguageKey;
+	requiredLanguages: readonly LanguageKey[];
+	switcherFallbackLanguage: LanguageKey;
+};

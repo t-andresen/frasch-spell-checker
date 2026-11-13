@@ -87,7 +87,7 @@ The legal page (Impressum and privacy statement) is long running text. So it is 
 
 - **The head of a file** holds `title`. Placeholders in the head need quotation marks. The text below the head starts its headings with `##`.
 - **German counts legally.** `structure/legal.ts` names that language and the languages whose file must exist, German and English. Every other file is a translation. Its head needs a `translationNote` with `text` and `linkText`. The page shows it in a note box with a link to the German version.
-- **A Frisian file is optional.** While `content/legal/frr.md` does not exist, the footer of the Frisian pages links to the German legal page with `hreflang`, and the language switcher on the legal page leads to the Frisian start page. Adding the file needs no code change.
+- **A Frisian file is optional.** While `content/legal/frr.md` does not exist, the footer of the Frisian pages links to the German legal page with `hreflang`, and on the legal page the "Frasch" entry of the language switcher leads to the English legal page (`switcherFallbackLanguage` in `structure/legal.ts`). Adding the file needs no code change.
 - **One page file for all languages:** `pages/[...legal].astro` builds one page per Markdown file. The content is `components/LegalPage.astro`.
 - **The Impressum details** (name, postal address, mail address) are written into each language file. They are placeholders until issue 23. Never commit a home address or a private mail address.
 - **A link in the Markdown text** has no helper like `pageLink`. The check of the built site reports a link that leads nowhere.

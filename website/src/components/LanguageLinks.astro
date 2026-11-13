@@ -9,12 +9,14 @@
  * `page` is the id of the page that is shown.
  *
  * A language can be without a legal page. On the legal page, the entry of
- * such a language leads to its start page.
+ * such a language leads to the legal page in `switcherFallbackLanguage` from
+ * `src/structure/legal.ts`, and its `hreflang` names that language.
  */
-import { getLanguage, type LanguageKey, languages } from '../i18n/languages';
+import { getLanguage, type Language, languages } from '../i18n/languages';
 import { hasLegalPage } from '../lib/legal';
 import { pageLink } from '../lib/links';
-import { getPage, type Page, type PageId } from '../structure/pages';
+import { legalPage } from '../structure/legal';
+import { getPage, type PageId } from '../structure/pages';
 
 interface Props {
 	page: PageId;
@@ -23,15 +25,15 @@ interface Props {
 const language = getLanguage(Astro.currentLocale);
 const currentPage = getPage(Astro.props.page);
 
-/** The page that the entry of a language leads to. */
-async function targetPage(other: LanguageKey): Promise<Page> {
-	if (currentPage.id === 'legal' && !(await hasLegalPage(other))) {
-		return getPage('start');
+/** The language of the page that the entry of a language leads to. */
+async function targetLanguage(other: Language): Promise<Language> {
+	if (currentPage.id === 'legal' && !(await hasLegalPage(other.key))) {
+		return getLanguage(legalPage.switcherFallbackLanguage);
 	}
-	return currentPage;
+	return other;
 }
 
-const entries = await Promise.all(languages.map(async (other) => ({ other, target: await targetPage(other.key) })));
+const entries = await Promise.all(languages.map(async (other) => ({ other, target: await targetLanguage(other) })));
 ---
 
 <ul>
@@ -39,9 +41,9 @@ const entries = await Promise.all(languages.map(async (other) => ({ other, targe
 		entries.map(({ other, target }) => (
 			<li>
 				<a
-					href={pageLink(other.key, target.slug)}
+					href={pageLink(target.key, currentPage.slug)}
 					lang={other.htmlLang}
-					hreflang={other.htmlLang}
+					hreflang={target.htmlLang}
 					aria-current={other.key === language.key ? 'page' : undefined}
 				>
 					{other.name}
