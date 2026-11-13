@@ -9,19 +9,11 @@ import type { LanguageKey } from '../i18n/languages';
  * - `bindingLanguage`: the version that counts legally. Every other version is a
  *   translation and shows a note with a link to this one.
  * - `requiredLanguages`: the build stops if one of these files is missing.
- *   A language that is not listed is optional. While its file is missing, its
- *   footer links to the legal page in `bindingLanguage`. Adding the file later
- *   needs no code change.
- * - `switcherFallbackLanguage`: on the legal page, the entry of the language
- *   switcher for a language without a file leads to the legal page in this
- *   language. It must be one of the `requiredLanguages`.
+ *   A language that is not listed is optional. While its file is missing, the
+ *   footer links and the language switcher on the legal page lead to the legal
+ *   page in `bindingLanguage`. Adding the file later needs no code change.
  */
 export const legalPage = {
 	bindingLanguage: 'de',
 	requiredLanguages: ['de', 'en'],
-	switcherFallbackLanguage: 'en',
-} as const satisfies {
-	bindingLanguage: LanguageKey;
-	requiredLanguages: readonly LanguageKey[];
-	switcherFallbackLanguage: LanguageKey;
-};
+} as const satisfies { bindingLanguage: LanguageKey; requiredLanguages: readonly LanguageKey[] };

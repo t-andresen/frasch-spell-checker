@@ -9,7 +9,7 @@
  * `page` is the id of the page that is shown.
  *
  * A language can be without a legal page. On the legal page, the entry of
- * such a language leads to the legal page in `switcherFallbackLanguage` from
+ * such a language leads to the legal page in `bindingLanguage` from
  * `src/structure/legal.ts`, and its `hreflang` names that language.
  */
 import { getLanguage, type Language, languages } from '../i18n/languages';
@@ -28,7 +28,7 @@ const currentPage = getPage(Astro.props.page);
 /** The language of the page that the entry of a language leads to. */
 async function targetLanguage(other: Language): Promise<Language> {
 	if (currentPage.id === 'legal' && !(await hasLegalPage(other.key))) {
-		return getLanguage(legalPage.switcherFallbackLanguage);
+		return getLanguage(legalPage.bindingLanguage);
 	}
 	return other;
 }
