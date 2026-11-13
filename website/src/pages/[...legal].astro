@@ -1,0 +1,25 @@
+---
+/**
+ * The legal page, for every language that has a file in `src/content/legal/`.
+ *
+ * Other pages have one page file per language. The legal page has this one
+ * file instead, because a language can be without a legal page. Astro asks
+ * `getStaticPaths` which addresses to build. The answer is one address per
+ * Markdown file: `legal/` for Frisian, `de/legal/` for German and so on. So a
+ * new Markdown file adds its page without a change here.
+ */
+import type { GetStaticPaths } from 'astro';
+import LegalPage from '../components/LegalPage.astro';
+import { getLegalFiles } from '../lib/legal';
+import { pagePath } from '../lib/links';
+import { getPage } from '../structure/pages';
+
+export const getStaticPaths = (async () => {
+	const files = await getLegalFiles();
+	return [...files.keys()].map((language) => ({
+		params: { legal: pagePath(language, getPage('legal').slug) },
+	}));
+}) satisfies GetStaticPaths;
+---
+
+<LegalPage />

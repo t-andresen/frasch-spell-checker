@@ -7,10 +7,14 @@
  *   <LanguageLinks page={currentPage.id} />
  *
  * `page` is the id of the page that is shown.
+ *
+ * A language can be without a legal page. On the legal page, the entry of
+ * such a language leads to its start page.
  */
-import { getLanguage, languages } from '../i18n/languages';
+import { getLanguage, type LanguageKey, languages } from '../i18n/languages';
+import { hasLegalPage } from '../lib/legal';
 import { pageLink } from '../lib/links';
-import { getPage, type PageId } from '../structure/pages';
+import { getPage, type Page, type PageId } from '../structure/pages';
 
 interface Props {
 	page: PageId;
@@ -18,14 +22,24 @@ interface Props {
 
 const language = getLanguage(Astro.currentLocale);
 const currentPage = getPage(Astro.props.page);
+
+/** The page that the entry of a language leads to. */
+async function targetPage(other: LanguageKey): Promise<Page> {
+	if (currentPage.id === 'legal' && !(await hasLegalPage(other))) {
+		return getPage('start');
+	}
+	return currentPage;
+}
+
+const entries = await Promise.all(languages.map(async (other) => ({ other, target: await targetPage(other.key) })));
 ---
 
 <ul>
 	{
-		languages.map((other) => (
+		entries.map(({ other, target }) => (
 			<li>
 				<a
-					href={pageLink(other.key, currentPage.slug)}
+					href={pageLink(other.key, target.slug)}
 					lang={other.htmlLang}
 					hreflang={other.htmlLang}
 					aria-current={other.key === language.key ? 'page' : undefined}

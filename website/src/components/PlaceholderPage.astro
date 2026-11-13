@@ -12,7 +12,7 @@ import Button from './Button.astro';
 import RichText from './RichText.astro';
 
 interface Props {
-	page: 'libreOffice' | 'word' | 'legal';
+	page: 'libreOffice' | 'word';
 }
 
 const { page } = Astro.props;
@@ -23,22 +23,15 @@ const language = getLanguage(Astro.currentLocale);
 // All text comes from the text modules in `src/text/`. Until the real text is
 // written, each text is a visible placeholder that names its key.
 const text = getText(language.key);
-
-// The legal page has no text module, because its text will be Markdown.
-// Until then its title is the label of the footer link.
-const title = page === 'legal' ? text.labels.footer.legal : text[page].title;
+const title = text[page].title;
 ---
 
 <Layout page={page} title={title}>
 	<h1>{title}</h1>
-	{page !== 'legal' && <p class="lead"><RichText text={text[page].intro} /></p>}
+	<p class="lead"><RichText text={text[page].intro} /></p>
 
-	{
-		// The download does not exist yet. So the button only leads to the top of this page.
-		(page === 'libreOffice' || page === 'word') && (
-			<p>
-				<Button href="#main" icon="download">{text.labels.install.download}</Button>
-			</p>
-		)
-	}
+	{/* The download does not exist yet. So the button only leads to the top of this page. */}
+	<p>
+		<Button href="#main" icon="download">{text.labels.install.download}</Button>
+	</p>
 </Layout>

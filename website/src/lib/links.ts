@@ -6,12 +6,23 @@ import type { LinkTarget } from '../structure/textLinks';
 const base = `${import.meta.env.BASE_URL.replace(/\/+$/, '')}/`;
 
 /**
+ * Path of a page in one language below the folder of the site, without a slash
+ * at either end: `pagePath('de', 'libreoffice')` is `de/libreoffice`. Empty for
+ * the Frisian start page. Only a page file with `getStaticPaths` needs it.
+ * Every link uses `pageLink`.
+ */
+export function pagePath(language: LanguageKey, page = ''): string {
+	const segments = [getLanguage(language).prefix, ...page.split('/')];
+	return segments.filter((segment) => segment !== '').join('/');
+}
+
+/**
  * Address of a page in one language, for example `pageLink('de', 'libreoffice')`.
  * Leave `page` empty for the start page. The result always ends with a slash.
  */
 export function pageLink(language: LanguageKey, page = ''): string {
-	const segments = [getLanguage(language).prefix, ...page.split('/')];
-	return base + segments.filter((segment) => segment !== '').map((segment) => `${segment}/`).join('');
+	const path = pagePath(language, page);
+	return path === '' ? base : `${base}${path}/`;
 }
 
 /**
