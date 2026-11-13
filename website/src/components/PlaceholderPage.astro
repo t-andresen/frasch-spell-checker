@@ -1,25 +1,18 @@
 ---
 /**
- * Temporary content of a page. It shows that the layout, the routing per
- * language and the building blocks work. The issues for the real pages
- * replace it page by page.
+ * Temporary content of a page that is not built yet. The issues for the real
+ * pages replace it page by page.
  *
  * `page` is the id of the page from `src/structure/pages.ts`.
  */
 import { getLanguage } from '../i18n/languages';
 import Layout from '../layouts/Layout.astro';
-import { pageLink } from '../lib/links';
-import { getPage, type PageId } from '../structure/pages';
-import { startPage } from '../structure/start';
 import { getText } from '../text';
 import Button from './Button.astro';
-import NoteBox from './NoteBox.astro';
 import RichText from './RichText.astro';
-import Tile from './Tile.astro';
-import TileGroup from './TileGroup.astro';
 
 interface Props {
-	page: PageId;
+	page: 'libreOffice' | 'word' | 'legal';
 }
 
 const { page } = Astro.props;
@@ -39,25 +32,6 @@ const title = page === 'legal' ? text.labels.footer.legal : text[page].title;
 <Layout page={page} title={title}>
 	<h1>{title}</h1>
 	{page !== 'legal' && <p class="lead"><RichText text={text[page].intro} /></p>}
-
-	{
-		page === 'start' && (
-			<>
-				<TileGroup>
-					{startPage.tiles.map((tile) => (
-						<Tile
-							href={pageLink(language.key, getPage(tile.page).slug)}
-							title={text.start.tiles[tile.id].title}
-							text={text.start.tiles[tile.id].text}
-						/>
-					))}
-				</TileGroup>
-				<NoteBox heading={text.start.toolNote.heading}>
-					<p><RichText text={text.start.toolNote.text} /></p>
-				</NoteBox>
-			</>
-		)
-	}
 
 	{
 		// The download does not exist yet. So the button only leads to the top of this page.

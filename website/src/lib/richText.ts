@@ -196,3 +196,14 @@ export function richTextToHtml<LinkName extends string>(
 		})
 		.join('');
 }
+
+/** Returns the names of all links in the nodes, in the order of the text. */
+export function findLinkNames<LinkName extends string>(nodes: readonly RichTextNode<LinkName>[]): LinkName[] {
+	return nodes.flatMap((node) => {
+		if (node.type === 'text') {
+			return [];
+		}
+		const inner = findLinkNames(node.children);
+		return node.type === 'link' ? [node.name, ...inner] : inner;
+	});
+}

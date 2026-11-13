@@ -48,8 +48,9 @@ Run `npm run build` before you open a pull request. It must pass.
 - **All styles are in one file**, `website/src/styles/global.css`. No `<style>` blocks in components and no `style` attributes. Colours, type sizes and spacing are custom properties at the top of that file. Use them instead of new values. A new colour needs a value for the light and for the dark version, and its contrast must meet WCAG AA in both.
 - **Who the site is for is described in `PRODUCT.md`** at the top of the repo: users, purpose, brand and principles. It sums up issue 2 for design work. If the two disagree, issue 2 is right.
 - **The look is described in `DESIGN.md`** at the top of the repo: colours, type, spacing and building blocks, with their rules. Read it before you change the look. The stylesheet is the source. If the two disagree, bring `DESIGN.md` up to date. `.impeccable/design.json` holds the same values as data, and `.impeccable/surfaces/` holds the design brief of the layout.
-- **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, and `NoteBox.astro`. The class `lead` marks the intro paragraph below the page title. Each component file starts with an example of its use.
-- **The site name** is defined only in `website/src/structure/site.ts`.
+- **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, and `NoteBox.astro`. The class `lead` marks the intro paragraph below the page title. The class `actions` marks a paragraph that holds a button and a smaller link next to it. Each component file starts with an example of its use.
+- **The content of a page** is one component, for example `components/StartPage.astro` and `components/AboutPage.astro`. The page files of the three languages under `website/src/pages/` only call it. So a page looks the same in every language.
+- **The site name and the address for feedback by mail** are defined only in `website/src/structure/site.ts`. The mail address is a placeholder until issue 22. Build a mail link with `mailLink(address, subject)` from `website/src/lib/mailLink.ts`.
 - **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. Both are copies of the files in `resources/`.
 
 ## Website text
@@ -59,6 +60,8 @@ No text is written into a page file. Paths below are inside `website/src/`. Orde
 ### Placeholders
 
 A text that is not written yet holds a placeholder that names its language and its key, for example `[[frr:word.steps.moveFile.text]]`. This applies to all three languages. `npm run check:launch` finds every text of this form in `src/`, also in Markdown files. Do not write a literal placeholder into a comment in `src/`, because the launch check would report it.
+
+A value that is the same in every language and does not exist yet has `all` in the place of the language. The only one so far is the mail address, `[[all:site.feedbackMailAddress]]`.
 
 ### Emphasis and links in a text
 
@@ -76,6 +79,8 @@ The types `Plain` and `Rich` in `text/types.ts` say what a text can contain.
 
 Nothing else has a meaning. HTML in a text is shown as plain characters. The build stops when a `Rich` text has a marker without its closing partner or an unknown link name. The parser is `lib/richText.ts`.
 
+A section of the About page can name a link that its text must contain: `mustLinkTo` in `structure/about.ts`. The build stops when a language has written that text without the link. A text that still holds a placeholder passes.
+
 ### Files that Node runs directly
 
-`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/siteCheck.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
+`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/siteCheck.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.

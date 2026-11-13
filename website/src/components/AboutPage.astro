@@ -1,0 +1,69 @@
+---
+/**
+ * The content of the About page. The page files of all three languages use it:
+ *
+ *   <AboutPage />
+ *
+ * The sections and their order come from `src/structure/about.ts`. Each one
+ * is a heading with one paragraph. The feedback section also gets the mail
+ * button and the smaller link to the GitHub issues.
+ *
+ * All text comes from the text modules in `src/text/`. The mail address comes
+ * from `src/structure/site.ts`.
+ */
+import { getLanguage } from '../i18n/languages';
+import Layout from '../layouts/Layout.astro';
+import { targetLink } from '../lib/links';
+import { mailLink } from '../lib/mailLink';
+import { findPlaceholders } from '../lib/placeholders';
+import { findLinkNames, parseRichText } from '../lib/richText';
+import { aboutPage } from '../structure/about';
+import { feedbackMailAddress } from '../structure/site';
+import { textLinkNames, textLinks } from '../structure/textLinks';
+import { getText } from '../text';
+import Button from './Button.astro';
+import RichText from './RichText.astro';
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key).about;
+
+// Some sections must contain a certain link, for example the credits the link
+// to the dictionary. A text that still holds a placeholder is not written yet
+// and passes.
+for (const section of aboutPage.sections) {
+	if (!('mustLinkTo' in section)) {
+		continue;
+	}
+	const sectionText = text.sections[section.id].text;
+	const isWritten = findPlaceholders(sectionText).length === 0;
+	if (isWritten && !findLinkNames(parseRichText(sectionText, textLinkNames)).includes(section.mustLinkTo)) {
+		throw new Error(
+			`The text "about.sections.${section.id}.text" of the language "${language.key}" must contain a link ` +
+				`with the name "${section.mustLinkTo}", written as [text of the link](${section.mustLinkTo}).`,
+		);
+	}
+}
+---
+
+<Layout page="about" title={text.title}>
+	<h1>{text.title}</h1>
+	<p class="lead"><RichText text={text.intro} /></p>
+
+	{
+		aboutPage.sections.map((section) => (
+			<>
+				<h2>{text.sections[section.id].heading}</h2>
+				<p>
+					<RichText text={text.sections[section.id].text} />
+				</p>
+				{section.id === 'feedback' && (
+					<p class="actions">
+						<Button href={mailLink(feedbackMailAddress, text.feedback.mailSubject)}>{text.feedback.mailButton}</Button>
+						<a href={targetLink(language.key, textLinks.issues)}>{text.feedback.issuesLink}</a>
+					</p>
+				)}
+			</>
+		))
+	}
+</Layout>
