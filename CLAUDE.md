@@ -51,7 +51,7 @@ Run `npm run build` before you open a pull request. It must pass.
 - **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, and `NoteBox.astro`. The class `lead` marks the intro paragraph below the page title. The class `actions` marks a paragraph that holds a button and a smaller link next to it. Each component file starts with an example of its use.
 - **The content of a page** is one component, for example `components/StartPage.astro` and `components/AboutPage.astro`. The page files of the three languages under `website/src/pages/` only call it. So a page looks the same in every language. The legal page is the exception, see "Legal page" below.
 - **The site name and the address for feedback by mail** are defined only in `website/src/structure/site.ts`. The mail address is a placeholder until issue 22. Build a mail link with `mailLink(address, subject)` from `website/src/lib/mailLink.ts`.
-- **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. Both are copies of the files in `resources/`.
+- **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. These are the only copies of the icon in the repo.
 
 ## Website text
 
