@@ -54,15 +54,15 @@ Open:
 ## Brand Commitments
 
 - Name: "Frasch Ruchtschriwing".
-- Logo: the existing flag icon. The originals are in `resources/`. The website uses the copy in `website/public/icon.svg`.
+- Logo: the existing flag icon, `website/public/icon.svg`.
 - Flag colours as accents: gold `#F7C600`, red `#D11A2A`, blue `#1F4E9C`.
 - Look: plain but professional, not barebones. System fonts, large text, large buttons, usable on phones, a dark version that follows the device setting.
 - Who is behind it: a private project by the maintainer. The words come from the North Frisian Dictionary Unit at Kiel University, which gets a credit on the About page. The site does not present the Dictionary Unit as a partner.
 
 ## Evidence on Hand
 
-- The logo icon. The website has a copy of it in `website/public/`: `icon.svg` and `icon-128.png`. The originals in `resources/` are not in the repository yet; issue #3 commits them.
-- The spell check files for `spell_check/`. They are not in the repository yet; issue #3 commits them.
+- The logo icon in `website/public/`: `icon.svg` and `icon-128.png`. This is the only copy in the repository.
+- The spell check files in `spell_check/`. They are placeholders until issue #35 replaces them with the real files.
 - Screenshots of LibreOffice (issue #18) and of a current Word (issue #19) are still to come.
 - There are no testimonials, user numbers, press or endorsements. Future work must not invent any.
 
