@@ -25,6 +25,10 @@ jobs:
         with:
           # No later step talks to GitHub. So the access token is not kept.
           persist-credentials: false
+          # The full history. The build takes the date of the downloads from the
+          # last commit that changed spell_check/. The default checkout has only
+          # the newest commit, and the build stops on it.
+          fetch-depth: 0
 
       - name: Install the pinned Node version
         uses: actions/setup-node@v7

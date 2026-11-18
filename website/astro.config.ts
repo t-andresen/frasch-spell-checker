@@ -1,4 +1,5 @@
 import { defineConfig } from 'astro/config';
+import { downloads } from './integrations/downloads';
 import { siteCheck } from './integrations/siteCheck';
 import { defaultLanguage, languages } from './src/i18n/languages';
 
@@ -11,9 +12,11 @@ export default defineConfig({
 
 	output: 'static',
 
-	// Checks the finished files at the end of every build. A broken link, a missing
-	// file, a load from another server or a script stops the build.
-	integrations: [siteCheck()],
+	// `downloads` copies the download files from `spell_check/` into the site and
+	// gives the pages version and date. A missing file stops the build.
+	// `siteCheck` checks the finished files at the end of every build. A broken link,
+	// a missing file, a load from another server or a script stops the build.
+	integrations: [downloads(), siteCheck()],
 
 	// Every page address ends with a slash, like the folders GitHub Pages serves.
 	trailingSlash: 'always',

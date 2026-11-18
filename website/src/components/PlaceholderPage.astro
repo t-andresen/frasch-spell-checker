@@ -5,8 +5,12 @@
  *
  * `page` is the id of the page from `src/structure/pages.ts`.
  */
+import { date, version } from 'virtual:release';
 import { getLanguage } from '../i18n/languages';
 import Layout from '../layouts/Layout.astro';
+import { formatDate } from '../lib/formatDate';
+import { fileLink } from '../lib/links';
+import { downloadPath } from '../structure/downloads';
 import { getText } from '../text';
 import Button from './Button.astro';
 import RichText from './RichText.astro';
@@ -30,8 +34,11 @@ const title = text[page].title;
 	<h1>{title}</h1>
 	<p class="lead"><RichText text={text[page].intro} /></p>
 
-	{/* The download does not exist yet. So the button only leads to the top of this page. */}
+	{/* The file and the version come from `spell_check/`, see `integrations/downloads.ts`. */}
 	<p>
-		<Button href="#main" icon="download">{text.labels.install.download}</Button>
+		<Button href={fileLink(downloadPath(page))} icon="download" download>{text.labels.install.download}</Button>
+	</p>
+	<p>
+		{text.labels.install.version} {version} · {text.labels.install.date} <time datetime={date}>{formatDate(date)}</time>
 	</p>
 </Layout>

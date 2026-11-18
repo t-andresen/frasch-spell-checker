@@ -53,6 +53,17 @@ Run `npm run build` before you open a pull request. It must pass.
 - **The site name and the address for feedback by mail** are defined only in `website/src/structure/site.ts`. The mail address is a placeholder until issue 22. Build a mail link with `mailLink(address, subject)` from `website/src/lib/mailLink.ts`.
 - **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. These are the only copies of the icon in the repo.
 
+## Downloads, version and date
+
+The build takes the download files, the version and the date from `spell_check/`. Nobody uploads a file to the site by hand.
+
+- **The download files** are named only in `website/src/structure/downloads.ts`: the source path in `spell_check/` and the name a visitor downloads. A renamed source file is a one-line change there. The files in `spell_check/hunspell/` and `spell_check/apple_pages/` are never published, and the build stops if a download points into them.
+- **`website/integrations/downloads.ts`** copies the files into `downloads/` of the built site. The local preview serves them at the same addresses, straight from `spell_check/`.
+- **A link to a download** is `fileLink(downloadPath('word'))`, with `downloadPath` from `structure/downloads.ts`.
+- **The version** comes from `<version value="...">` in `description.xml` inside the `.oxt`. **The date** is the date of the last git commit that changed `spell_check/`. Pages read both with `import { version, date } from 'virtual:release'`. `date` has the form `YYYY-MM-DD`. Show it with `formatDate()` from `website/src/lib/formatDate.ts`, inside `<time datetime={date}>`. The form is numeric, so no language needs month names.
+- **The date needs the full git history.** The build stops in a shallow clone. The GitHub workflow checks out with `fetch-depth: 0` for this. Changes in `spell_check/` that are not committed yet do not change the date.
+- The build stops with a message that names the file when a download file is missing, the version cannot be read or the date cannot be found. The reading is in `website/src/lib/release.ts`.
+
 ## Website text
 
 No text is written into a page file. Paths below are inside `website/src/`. The legal page is the one exception to the text modules, see "Legal page" below. Order, screenshots and link addresses never go into a language module. So they cannot differ between languages.
@@ -95,4 +106,4 @@ The legal page (Impressum and privacy statement) is long running text. So it is 
 
 ### Files that Node runs directly
 
-`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/siteCheck.ts`, `lib/legalFiles.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
+`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/siteCheck.ts`, `lib/legalFiles.ts`, `lib/release.ts`, `lib/zip.ts`, `lib/formatDate.ts`, `lib/makeZip.ts`, `structure/downloads.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
