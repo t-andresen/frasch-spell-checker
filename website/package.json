@@ -10,8 +10,8 @@
     "dev": "astro dev",
     "build": "astro check && astro build",
     "check": "astro check",
-    "check:launch": "node scripts/check-launch.ts",
-    "test": "node --test \"src/**/*.test.ts\"",
+    "check:launch": "node build/scripts/check-launch.ts",
+    "test": "node --test \"src/**/*.test.ts\" \"build/**/*.test.ts\"",
     "preview": "astro preview",
     "astro": "astro"
   },

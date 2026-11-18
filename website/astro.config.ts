@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
-import { downloads } from './integrations/downloads';
-import { siteCheck } from './integrations/siteCheck';
+import { downloads } from './build/integrations/downloads';
+import { siteCheck } from './build/integrations/siteCheck';
 import { defaultLanguage, languages } from './src/i18n/languages';
 
 // https://astro.build/config

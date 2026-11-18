@@ -10,7 +10,7 @@
  *
  * The keys are the ids of the install pages in `src/structure/pages.ts`.
  *
- * `integrations/downloads.ts` copies the files. `src/lib/release.ts` reads the
+ * `build/integrations/downloads.ts` copies the files. `build/lib/release.ts` reads the
  * version and the date. Node runs this file directly for the tests. So it must
  * not import anything from Astro.
  */

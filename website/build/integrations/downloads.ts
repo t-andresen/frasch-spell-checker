@@ -9,17 +9,17 @@
  *
  *     import { version, date } from 'virtual:release';
  *
- *   `date` has the form `YYYY-MM-DD`. Show it with `formatDate()` from
+ *   `date` has the form `YYYY-MM-DD`. Show it with `formatDate(date, language)` from
  *   `src/lib/formatDate.ts`.
  *
  * A missing file, an unreadable version or a missing date stops the build
- * with a message that names the file. The reading is in `src/lib/release.ts`.
+ * with a message that names the file. The reading is in `build/lib/release.ts`.
  */
 import { copyFileSync, mkdirSync, readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
-import { type Release, readRelease } from '../src/lib/release';
+import { type Release, readRelease } from '../lib/release';
 
 const moduleId = 'virtual:release';
 // Vite's convention: a leading null character marks a module that has no file.

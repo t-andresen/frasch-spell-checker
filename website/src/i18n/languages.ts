@@ -8,14 +8,16 @@
  *   under `src/pages/`.
  * - `htmlLang`: the value of the HTML `lang` attribute.
  * - `name`: the name shown in the language switcher.
+ * - `dateFormat`: how a date is written, in numbers only, so that no language
+ *   needs month names. `formatDate()` in `src/lib/formatDate.ts` uses it.
  *
  * The Frisian `htmlLang` will change to a dialect tag later. Always read it from
  * here and never write it as a string anywhere else.
  */
 export const languages = [
-	{ key: 'frr', prefix: '', htmlLang: 'frr', name: 'Frasch' },
-	{ key: 'de', prefix: 'de', htmlLang: 'de', name: 'Deutsch' },
-	{ key: 'en', prefix: 'en', htmlLang: 'en', name: 'English' },
+	{ key: 'frr', prefix: '', htmlLang: 'frr', name: 'Frasch', dateFormat: 'DD.MM.YYYY' },
+	{ key: 'de', prefix: 'de', htmlLang: 'de', name: 'Deutsch', dateFormat: 'DD.MM.YYYY' },
+	{ key: 'en', prefix: 'en', htmlLang: 'en', name: 'English', dateFormat: 'YYYY-MM-DD' },
 ] as const;
 
 export type Language = (typeof languages)[number];

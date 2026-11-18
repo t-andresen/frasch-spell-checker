@@ -39,11 +39,12 @@ Run `npm run build` before you open a pull request. It must pass.
 
 ## Website conventions
 
-- **Languages** are defined only in `website/src/i18n/languages.ts`: internal key, address prefix, HTML `lang` tag, display name. North Frisian is the default and has no prefix. German is under `/de/`, English under `/en/`.
+- **Languages** are defined only in `website/src/i18n/languages.ts`: internal key, address prefix, HTML `lang` tag, display name, date format. North Frisian is the default and has no prefix. German is under `/de/`, English under `/en/`.
 - **The Frisian `lang` tag** will change to a dialect tag later. Read it from `htmlLang` in the `languages` module. Never write it as a string anywhere else.
 - **Internal links** always go through `website/src/lib/links.ts`: `pageLink(language, page)` for pages and `fileLink(path)` for files. A link written by hand misses the base path and breaks on GitHub Pages.
 - **Address and base path** (`site`, `base`) are set only in `website/astro.config.ts`.
 - **Text per language** lives in typed text modules, so the type check fails when a language lacks a text. See "Website text" below.
+- **Build tools are in `website/build/`**, apart from the website code in `website/src/`: the Astro integrations (`build/integrations/`), the code they run (`build/lib/`), the launch check (`build/scripts/`) and the files for their tests (`build/test-files/`). Code in `src/` never imports from `build/`. Code that pages use while they are built stays in `src/lib/`, also when it checks something, for example `placeholders.ts` and `legalFiles.ts`.
 - **Every page uses the layout** `website/src/layouts/Layout.astro`. It supplies `<head>`, skip link, flag stripe, header with menu and language switcher, and footer. A page passes its page id and its title: `<Layout page="about" title={text.about.title}>`.
 - **All styles are in one file**, `website/src/styles/global.css`. No `<style>` blocks in components and no `style` attributes. Colours, type sizes and spacing are custom properties at the top of that file. Use them instead of new values. A new colour needs a value for the light and for the dark version, and its contrast must meet WCAG AA in both.
 - **Who the site is for is described in `PRODUCT.md`** at the top of the repo: users, purpose, brand and principles. It sums up issue 2 for design work. If the two disagree, issue 2 is right.
@@ -58,11 +59,11 @@ Run `npm run build` before you open a pull request. It must pass.
 The build takes the download files, the version and the date from `spell_check/`. Nobody uploads a file to the site by hand.
 
 - **The download files** are named only in `website/src/structure/downloads.ts`: the source path in `spell_check/` and the name a visitor downloads. A renamed source file is a one-line change there. The files in `spell_check/hunspell/` and `spell_check/apple_pages/` are never published, and the build stops if a download points into them.
-- **`website/integrations/downloads.ts`** copies the files into `downloads/` of the built site. The local preview serves them at the same addresses, straight from `spell_check/`.
+- **`website/build/integrations/downloads.ts`** copies the files into `downloads/` of the built site. The local preview serves them at the same addresses, straight from `spell_check/`.
 - **A link to a download** is `fileLink(downloadPath('word'))`, with `downloadPath` from `structure/downloads.ts`.
-- **The version** comes from `<version value="...">` in `description.xml` inside the `.oxt`. **The date** is the date of the last git commit that changed `spell_check/`. Pages read both with `import { version, date } from 'virtual:release'`. `date` has the form `YYYY-MM-DD`. Show it with `formatDate()` from `website/src/lib/formatDate.ts`, inside `<time datetime={date}>`. The form is numeric, so no language needs month names.
+- **The version** comes from `<version value="...">` in `description.xml` inside the `.oxt`. **The date** is the date of the last git commit that changed `spell_check/`. Pages read both with `import { version, date } from 'virtual:release'`. `date` has the form `YYYY-MM-DD`. Show it with `formatDate(date, language.key)` from `website/src/lib/formatDate.ts`, inside `<time datetime={date}>`. Each language has its own numeric form, `dateFormat` in `website/src/i18n/languages.ts`: `18.11.2026` in Frisian and German, `2026-11-18` in English. So no language needs month names.
 - **The date needs the full git history.** The build stops in a shallow clone. The GitHub workflow checks out with `fetch-depth: 0` for this. Changes in `spell_check/` that are not committed yet do not change the date.
-- The build stops with a message that names the file when a download file is missing, the version cannot be read or the date cannot be found. The reading is in `website/src/lib/release.ts`.
+- The build stops with a message that names the file when a download file is missing, the version cannot be read or the date cannot be found. The reading is in `website/build/lib/release.ts`. Its tests use the one test archive `website/build/test-files/test.oxt`.
 
 ## Website text
 
@@ -106,4 +107,4 @@ The legal page (Impressum and privacy statement) is long running text. So it is 
 
 ### Files that Node runs directly
 
-`scripts/check-launch.ts`, `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/siteCheck.ts`, `lib/legalFiles.ts`, `lib/release.ts`, `lib/zip.ts`, `lib/formatDate.ts`, `lib/makeZip.ts`, `structure/downloads.ts` and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
+In `website/src/`: `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/legalFiles.ts`, `lib/formatDate.ts`, `i18n/languages.ts` and `structure/downloads.ts`. All of `website/build/lib/` and `website/build/scripts/`. These files and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
