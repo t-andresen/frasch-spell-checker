@@ -59,6 +59,10 @@ test('reads the version from description.xml', () => {
 	assert.equal(readVersion(xml), '1.2.0');
 });
 
+test('a namespace prefix on the version tag is understood', () => {
+	assert.equal(readVersion('<ns0:description><ns0:version value="2.0"/></ns0:description>'), '2.0');
+});
+
 test('a missing, empty or doubled version is reported', () => {
 	assert.throws(() => readVersion('<description></description>'), /has 0/);
 	assert.throws(() => readVersion('<version value=""/>'), /has an empty one/);

@@ -37,7 +37,8 @@ const prefix = 'Downloads:';
 
 /** Returns the version number from the text of a `description.xml`. Throws unless there is exactly one non-empty entry. */
 export function readVersion(xml: string): string {
-	const values = [...xml.matchAll(/<version\s+value="([^"]*)"/g)].map((match) => match[1]?.trim() ?? '');
+	// The tag can carry a namespace prefix, for example `<ns0:version value="1.0"/>` from Python.
+	const values = [...xml.matchAll(/<(?:\w+:)?version\s+value="([^"]*)"/g)].map((match) => match[1]?.trim() ?? '');
 	if (values.length !== 1 || values[0] === '') {
 		throw new Error(`it needs exactly one non-empty <version value="..."> entry, but has ${values.length === 1 ? 'an empty one' : values.length}.`);
 	}
@@ -48,7 +49,7 @@ function git(repoRoot: string, args: string[]): string {
 	try {
 		return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 	} catch (error) {
-		const details = String((error as { stderr?: unknown }).stderr ?? (error as Error).message).trim();
+		const details = (String((error as { stderr?: unknown }).stderr ?? '').trim() || (error as Error).message);
 		throw new Error(`${prefix} "git ${args.join(' ')}" failed in ${repoRoot}: ${details}`);
 	}
 }
@@ -67,8 +68,8 @@ export function readCommitDate(repoRoot: string, folder: string): string {
 				'Run "git fetch --unshallow". In GitHub Actions, set "fetch-depth: 0" for actions/checkout.',
 		);
 	}
-	const date = git(repoRoot, ['log', '-1', '--format=%cI', '--', folder]).slice(0, 10);
-	if (date === '') {
+	const date = git(repoRoot, ['log', '-1', '--no-show-signature', '--format=%cI', '--', folder]).slice(0, 10);
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
 		throw new Error(`${prefix} no git commit changed ${folder}/. So the date of the spell check files cannot be found.`);
 	}
 	return date;
