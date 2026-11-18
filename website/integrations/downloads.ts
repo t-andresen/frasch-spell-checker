@@ -85,7 +85,9 @@ export function downloads(): AstroIntegration {
 			'astro:server:setup': ({ server }) => {
 				const files = new Map(getRelease().files.map((file) => [`${base}${file.target}`, file]));
 				server.middlewares.use((request, response, next) => {
-					const file = files.get((request.url ?? '').split(/[?#]/)[0] ?? '');
+					// Astro removes `base` from `url` before this runs. `originalUrl` still has it.
+					const address = request.originalUrl ?? request.url ?? '';
+					const file = files.get(address.split(/[?#]/)[0] ?? '');
 					if (file === undefined) {
 						next();
 						return;
