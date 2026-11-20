@@ -10,7 +10,7 @@
  *   font, image, frame. A normal link to another site is allowed.
  * - JavaScript: a `<script>` tag, an attribute like `onclick`, a `javascript:` address
  *
- * `integrations/siteCheck.ts` runs the checks at the end of every `npm run build`.
+ * `build/integrations/siteCheck.ts` runs the checks at the end of every `npm run build`.
  *
  * Node runs this file directly for the tests. So it must not import anything from Astro.
  */

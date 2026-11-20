@@ -10,9 +10,9 @@
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
-import { findPlaceholders } from '../src/lib/placeholders.ts';
+import { findPlaceholders } from '../../src/lib/placeholders.ts';
 
-const websiteFolder = join(import.meta.dirname, '..');
+const websiteFolder = join(import.meta.dirname, '../..');
 const sourceFolder = join(websiteFolder, 'src');
 const checkedExtensions = ['.ts', '.astro', '.md', '.mdx', '.json', '.html', '.css'];
 

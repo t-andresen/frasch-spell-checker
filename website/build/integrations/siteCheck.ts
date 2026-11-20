@@ -4,14 +4,14 @@
  * An Astro integration is a set of functions that Astro calls at fixed moments.
  * This one uses two moments: when the settings are final, to read `site` and
  * `base`, and when the build is written, to check the files. The checks
- * themselves are in `src/lib/siteCheck.ts`.
+ * themselves are in `build/lib/siteCheck.ts`.
  *
  * A problem stops the build with an error. So `npm run build` fails on the
  * maintainer's computer and in the GitHub workflow in the same way.
  */
 import { fileURLToPath } from 'node:url';
 import type { AstroIntegration } from 'astro';
-import { checkBuildFolder } from '../src/lib/siteCheck';
+import { checkBuildFolder } from '../lib/siteCheck';
 
 export function siteCheck(): AstroIntegration {
 	let site: string | undefined;
