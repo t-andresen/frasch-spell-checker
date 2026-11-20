@@ -1,0 +1,20 @@
+---
+/**
+ * The content of the MS Word install page. The page files of all three languages use it:
+ *
+ *   <WordPage />
+ *
+ * All parts are in `InstallPage.astro`. The steps and notes come from
+ * `src/structure/word.ts`.
+ */
+import { getLanguage } from '../i18n/languages';
+import { wordPage } from '../structure/word';
+import { getText } from '../text';
+import InstallPage from './InstallPage.astro';
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key).word;
+---
+
+<InstallPage page="word" structure={wordPage} text={text} />

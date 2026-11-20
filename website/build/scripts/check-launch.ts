@@ -1,5 +1,6 @@
 /**
- * Launch check: fails if any placeholder is left in the source of the site.
+ * Launch check: fails if any placeholder is left in the source of the site,
+ * or if a screenshot that a step names does not exist yet.
  *
  * Run it with `npm run check:launch`. It is not part of `npm run build`,
  * because placeholders are expected until all text is written.
@@ -7,10 +8,17 @@
  * It reads every text file under `src/` and looks for placeholders in the form
  * that `src/lib/placeholders.ts` defines. That covers the text modules of all
  * languages and also Markdown files. Test files are skipped.
+ *
+ * Then it compares the screenshots of the install pages with the files in
+ * `src/screenshots/`. While a file is missing, the page shows a placeholder image.
  */
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { findPlaceholders } from '../../src/lib/placeholders.ts';
+import { screenshotsFolder } from '../../src/structure/install.ts';
+import { libreOfficePage } from '../../src/structure/libreOffice.ts';
+import { wordPage } from '../../src/structure/word.ts';
+import { findMissingScreenshots } from '../lib/screenshots.ts';
 
 const websiteFolder = join(import.meta.dirname, '../..');
 const sourceFolder = join(websiteFolder, 'src');
@@ -51,11 +59,32 @@ for (const file of listFiles(sourceFolder)) {
 	}
 }
 
-if (total === 0) {
-	console.log('Launch check passed: no placeholders left.');
-} else {
+const screenshotsPath = join(websiteFolder, screenshotsFolder);
+const screenshotFiles = existsSync(screenshotsPath) ? readdirSync(screenshotsPath) : [];
+const missingScreenshots = findMissingScreenshots({ libreOffice: libreOfficePage, word: wordPage }, screenshotFiles);
+
+if (missingScreenshots.length > 0) {
+	console.log(`\nScreenshots that are missing in ${screenshotsFolder}/ (${missingScreenshots.length})`);
+	for (const { page, step, file } of missingScreenshots) {
+		console.log(`  ${file} (page ${page}, step ${step})`);
+	}
+}
+
+const problems: string[] = [];
+if (total > 0) {
 	const perLanguage = [...countPerLanguage].map(([language, count]) => `${language}: ${count}`).join(', ');
-	console.error(`\nLaunch check failed: ${total} placeholders left (${perLanguage}).`);
-	console.error('Replace each one with real text before the launch.');
+	problems.push(`${total} placeholders left (${perLanguage}). Replace each one with real text before the launch.`);
+}
+if (missingScreenshots.length > 0) {
+	problems.push(`${missingScreenshots.length} screenshots missing. Add each file before the launch.`);
+}
+
+if (problems.length === 0) {
+	console.log('Launch check passed: no placeholders left, all screenshots exist.');
+} else {
+	console.error('\nLaunch check failed:');
+	for (const problem of problems) {
+		console.error(`  ${problem}`);
+	}
 	process.exitCode = 1;
 }

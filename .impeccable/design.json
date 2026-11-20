@@ -495,6 +495,14 @@
 			"css": ".ds-note { max-inline-size: var(--measure); padding: var(--space-l); border: var(--rule-thin) solid var(--note-edge); border-radius: var(--radius); background: var(--note-ground); color: var(--ink); font-family: var(--font); font-size: var(--text-body); line-height: 1.6; } .ds-note-heading { margin-block: 0 var(--space-xs); font-size: var(--text-lead); font-weight: 700; line-height: 1.2; } .ds-note p { margin: 0; padding-inline-start: var(--entry-indent); } .ds-note a { color: var(--link); text-decoration-line: underline; text-decoration-thickness: 0.07em; text-underline-offset: 0.2em; transition: color var(--fast) var(--ease-out), text-decoration-thickness var(--fast) var(--ease-out); } .ds-note a:hover { color: var(--link-strong); text-decoration-thickness: 0.14em; } .ds-note a:focus-visible { outline: var(--focus-width) solid var(--focus); outline-offset: 3px; border-radius: var(--radius); }"
 		},
 		{
+			"name": "Download Box",
+			"kind": "custom",
+			"refersTo": "download-box",
+			"description": "The main button of an install page with file name, version and date below it. A ruled box like a tile, but no link itself.",
+			"html": "<div class=\"ds-download-box\"><p class=\"ds-download-actions\"><a class=\"ds-download-button\" href=\"#\">Download</a><a href=\"#\">Extension site</a></p><dl class=\"ds-download-facts\"><div><dt>File</dt><dd>Frasch.dic</dd></div><div><dt>Version</dt><dd>1.0.0</dd></div><div><dt>Date</dt><dd>2026-11-18</dd></div></dl></div>",
+			"css": ".ds-download-box { max-inline-size: var(--measure); padding: var(--space-l); border: var(--rule-thin) solid var(--ink); border-radius: var(--radius); background: var(--surface); color: var(--ink); font-family: var(--font); font-size: var(--text-body); line-height: 1.6; } .ds-download-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs) var(--space-l); margin: 0 0 var(--space-m); } .ds-download-actions a { color: var(--link); } .ds-download-button { display: inline-flex; align-items: center; min-block-size: var(--button-height); padding: var(--space-s) var(--space-xl); border-radius: var(--radius); background: var(--action-ground); font-size: var(--text-lead); font-weight: 700; text-decoration: none; } .ds-download-actions a.ds-download-button { color: var(--action-text); } .ds-download-facts { display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-xl); margin: 0; font-size: var(--text-small); } .ds-download-facts div { display: flex; gap: 0 var(--space-xs); } .ds-download-facts dt { font-weight: 700; } .ds-download-facts dd { margin: 0; }"
+		},
+		{
 			"name": "Header with Menu",
 			"kind": "nav",
 			"refersTo": "menu-entry-current",

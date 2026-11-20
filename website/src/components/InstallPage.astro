@@ -1,0 +1,109 @@
+---
+/**
+ * The shared content of both install pages. `LibreOfficePage.astro` and
+ * `WordPage.astro` use it and pass their structure and their text:
+ *
+ *   <InstallPage page="word" structure={wordPage} text={getText(language.key).word} />
+ *
+ * Order on the page: title, intro, the hint for phone visitors, the download
+ * box, the numbered steps with their screenshots, and last the notes, each
+ * with its own heading.
+ *
+ * - `page`: the id of the page. It is also the id of its download in `src/structure/downloads.ts`.
+ * - `structure`: the structure module of the page. Steps and notes appear in its order.
+ * - `text`: the text of the page in one language. The types in `src/text/types.ts`
+ *   make sure that it has a text for every step and note of the structure.
+ * - A link between the tags is optional. The download box shows it next to the button.
+ */
+import { getLanguage } from '../i18n/languages';
+import Layout from '../layouts/Layout.astro';
+import type { InstallPageStructure } from '../structure/install';
+import { getText } from '../text';
+import type { HeadingAndText, Plain, Rich } from '../text/types';
+import DownloadBox from './DownloadBox.astro';
+import NoteBox from './NoteBox.astro';
+import RichText from './RichText.astro';
+import Screenshot from './Screenshot.astro';
+
+interface Props {
+	page: 'libreOffice' | 'word';
+	structure: InstallPageStructure;
+	text: {
+		title: Plain;
+		intro: Rich;
+		screenshotsNote: Rich;
+		steps: Record<string, { text: Rich; imageDescription?: Plain }>;
+		notes: Record<string, HeadingAndText>;
+	};
+}
+
+const { page, structure, text } = Astro.props;
+
+/** The text of an entry. The type check makes sure it exists. This catches a mistake that slips past it. */
+function textOf<Entry>(texts: Record<string, Entry>, kind: string, id: string): Entry {
+	const entry = texts[id];
+	if (entry === undefined) {
+		throw new Error(`The page "${page}" has no text for the ${kind} "${id}".`);
+	}
+	return entry;
+}
+
+const steps = structure.steps.map((step) => {
+	const { text: stepText, imageDescription } = textOf(text.steps, 'step', step.id);
+	if (step.screenshot === undefined) {
+		return { text: stepText, screenshot: undefined };
+	}
+	if (imageDescription === undefined) {
+		throw new Error(`The step "${step.id}" of the page "${page}" has a screenshot but no image description.`);
+	}
+	return { text: stepText, screenshot: { file: step.screenshot, description: imageDescription } };
+});
+
+const notes = structure.notes.map((note) => textOf(text.notes, 'note', note.id));
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const labels = getText(language.key).labels.install;
+---
+
+<Layout page={page} title={text.title}>
+	<h1>{text.title}</h1>
+	<p class="lead"><RichText text={text.intro} /></p>
+
+	{/* Shown only on a phone or tablet, see `.phone-hint` in `global.css`. */}
+	<div class="phone-hint">
+		<NoteBox>
+			<p><RichText text={labels.phoneHint} /></p>
+		</NoteBox>
+	</div>
+
+	<DownloadBox download={page}>
+		<slot />
+	</DownloadBox>
+
+	<h2>{labels.stepsHeading}</h2>
+	<p><RichText text={text.screenshotsNote} /></p>
+	<ol class="steps">
+		{
+			steps.map((step) => (
+				<li>
+					<p>
+						<RichText text={step.text} />
+					</p>
+					{step.screenshot !== undefined && <Screenshot file={step.screenshot.file} description={step.screenshot.description} />}
+				</li>
+			))
+		}
+	</ol>
+
+	{
+		notes.map((note) => (
+			<>
+				<h2>{note.heading}</h2>
+				<p>
+					<RichText text={note.text} />
+				</p>
+			</>
+		))
+	}
+</Layout>

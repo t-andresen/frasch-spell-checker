@@ -1,0 +1,54 @@
+---
+/**
+ * Download box: the main button for one download file, with its file name,
+ * version and date below it.
+ *
+ *   <DownloadBox download="word" />
+ *   <DownloadBox download="libreOffice"><a href={address}>{text.extensionSiteLink}</a></DownloadBox>
+ *
+ * - `download`: the id of the file in `src/structure/downloads.ts`.
+ * - A link between the tags is optional. It stands next to the button as a
+ *   second, smaller action, like in a paragraph with the class `actions`.
+ *
+ * The file, the version and the date come from `spell_check/`, see
+ * `build/integrations/downloads.ts`.
+ */
+import { date, version } from 'virtual:release';
+import { getLanguage } from '../i18n/languages';
+import { formatDate } from '../lib/formatDate';
+import { fileLink } from '../lib/links';
+import { type DownloadId, downloadPath, downloads } from '../structure/downloads';
+import { getText } from '../text';
+import Button from './Button.astro';
+
+interface Props {
+	download: DownloadId;
+}
+
+const { download } = Astro.props;
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const labels = getText(language.key).labels.install;
+---
+
+<div class="download-box">
+	<p class="actions">
+		<Button href={fileLink(downloadPath(download))} icon="download" download>{labels.download}</Button>
+		<slot />
+	</p>
+	<dl class="download-facts">
+		<div>
+			<dt>{labels.file}</dt>
+			<dd>{downloads[download].fileName}</dd>
+		</div>
+		<div>
+			<dt>{labels.version}</dt>
+			<dd>{version}</dd>
+		</div>
+		<div>
+			<dt>{labels.date}</dt>
+			<dd><time datetime={date}>{formatDate(date, language.key)}</time></dd>
+		</div>
+	</dl>
+</div>

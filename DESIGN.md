@@ -103,6 +103,11 @@ components:
     textColor: "{colors.ink}"
     rounded: "{rounded.radius}"
     padding: "1.5rem"
+  download-box:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.radius}"
+    padding: "1.5rem"
   menu-entry-current:
     backgroundColor: "{colors.ink}"
     textColor: "{colors.paper}"
@@ -262,8 +267,8 @@ Shapes are rectangles with corners of 2px. This applies to buttons, tiles, note 
 There are three kinds of line:
 
 - A 2px ink line below the header line. Buttons also have a 2px border.
-- A 1px ink line above the footer and around a tile. A note box has a 1px border in its own edge colour.
-- A 1px hairline for a divider inside the text.
+- A 1px ink line above the footer, around a tile and around the download box. A note box has a 1px border in its own edge colour.
+- A 1px hairline for a divider inside the text and around a screenshot.
 
 The flag stripe is three equal parts with hard edges: gold, red, blue.
 
@@ -315,6 +320,33 @@ A text the visitor should not miss. It is marked as a note for screen readers.
 - **Style:** Gold-tinted ground, 1px border in the note edge colour, 2px corners, padding 1.5rem.
 - **Heading:** Optional. Bold, in the Title size. The text below a heading is indented by 1.4em, as in a tile.
 - **Width:** At most 42.5rem. Next to a group of tiles the box is as wide as the group.
+
+### Download Box
+
+The main button of an install page, with the facts of the file below it. A ruled box like a tile, but the box itself is no link.
+
+- **Style:** Surface ground, 1px ink border, 2px corners, padding 1.5rem. At most 42.5rem wide, with 2rem above and below.
+- **Button row:** The download button with its icon. On the LibreOffice page the smaller link to the extension site stands next to it, as in an action row.
+- **Facts:** File name, version and date in one row in the Label size, which wraps on a phone. Each label is bold, its value follows it in normal weight.
+
+### Steps
+
+The numbered list of an install page.
+
+- **Number:** The browser's own list number, in bold. It stands out to the left like a headword. The text and the screenshot are indented below it.
+- **Spacing:** 2rem between two steps.
+
+### Screenshot
+
+The picture of one step, below the text of the step.
+
+- **Size:** At most as wide as the text column (42.5rem). The browser scales it down. A plain link below it in the Label size opens the image in full size. The link is 3rem high.
+- **Frame:** A 1px hairline border with 2px corners. It sets a white program window apart from the paper.
+- **Placeholder:** While a screenshot does not exist, a neutral image stands in its place: a see-through grey ground with a drawn program window, without text. It looks neutral on the light and on the dark page.
+
+### Phone Hint
+
+A note box without heading on the install pages. It says that the installation happens on a computer. It shows only on a window narrower than 36rem or on a device whose main pointer is a finger.
 
 ### Navigation
 
