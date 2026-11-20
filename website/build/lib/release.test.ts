@@ -1,8 +1,11 @@
 /**
  * Tests for reading version and date. Run them with `npm test`.
  *
- * The tests build small git repos in a temporary folder. The LibreOffice file
- * in them is `test-files/test.oxt`, with the version `1.2.0`.
+ * Only the date tests use git. Each of them builds a small git repo of its own
+ * in a temporary folder, which is deleted at the end. They never touch the git
+ * repo of this project. The other tests use plain folders.
+ *
+ * The LibreOffice file in the tests is `test-files/test.oxt`, with the version `1.2.0`.
  */
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -12,39 +15,56 @@ import { dirname, join } from 'node:path';
 import { after, test } from 'node:test';
 import { pathToFileURL } from 'node:url';
 import { downloads, spellCheckFolder, unpublishedFolders } from '../../src/structure/downloads.ts';
-import { readCommitDate, readRelease, readVersion } from './release.ts';
+import { gitEnvironment, readCommitDate, readDownloads, readVersion } from './release.ts';
 
 const testOxt = readFileSync(join(import.meta.dirname, '../test-files/test.oxt'));
 const tempFolder = mkdtempSync(join(tmpdir(), 'release-test-'));
 after(() => rmSync(tempFolder, { recursive: true, force: true }));
-let repoCount = 0;
+let folderCount = 0;
+
+/** A new empty folder inside the temporary folder. */
+function newFolder(): string {
+	const folder = join(tempFolder, `folder-${++folderCount}`);
+	mkdirSync(folder);
+	return folder;
+}
+
+function writeFile(folder: string, path: string, content: string | Buffer): void {
+	mkdirSync(dirname(join(folder, path)), { recursive: true });
+	writeFileSync(join(folder, path), content);
+}
+
+/** A plain folder, no git, with all download files. */
+function downloadFolder(): string {
+	const folder = newFolder();
+	writeFile(folder, downloads.libreOffice.source, testOxt);
+	writeFile(folder, downloads.word.source, 'words');
+	return folder;
+}
+
+// Without variables like GIT_DIR, which could point git at the repo of this project.
+const gitEnv = gitEnvironment();
 
 function git(repo: string, args: string[], date = '2026-11-18T23:30:00+01:00'): void {
 	execFileSync('git', ['-c', 'user.name=Test', '-c', 'user.email=test@example.org', '-c', 'commit.gpgsign=false', ...args], {
 		cwd: repo,
 		stdio: 'ignore',
-		env: { ...process.env, GIT_AUTHOR_DATE: date, GIT_COMMITTER_DATE: date },
+		env: { ...gitEnv, GIT_AUTHOR_DATE: date, GIT_COMMITTER_DATE: date },
 	});
 }
 
-function writeFile(repo: string, path: string, content: string | Buffer): void {
-	mkdirSync(dirname(join(repo, path)), { recursive: true });
-	writeFileSync(join(repo, path), content);
-}
-
-function commit(repo: string, path: string, content: string | Buffer, date?: string): void {
-	writeFile(repo, path, content);
+function commit(repo: string, path: string, date?: string): void {
+	writeFile(repo, path, path);
 	git(repo, ['add', '.']);
 	git(repo, ['commit', '--quiet', '-m', `Change ${path}`], date);
 }
 
-/** A new git repo with all download files, committed once. */
-function completeRepo(): string {
-	const repo = join(tempFolder, `repo-${++repoCount}`);
-	mkdirSync(repo);
+/** A new git repo with one commit in `spell_check/` and a later one outside it. */
+function gitRepo(): string {
+	const repo = newFolder();
 	git(repo, ['init', '--quiet']);
-	writeFile(repo, downloads.libreOffice.source, testOxt);
-	commit(repo, downloads.word.source, 'words');
+	commit(repo, `${spellCheckFolder}/words.txt`);
+	commit(repo, 'website/page.txt', '2026-12-05T12:00:00+01:00');
 	return repo;
 }
 
@@ -72,58 +92,54 @@ test('a missing, empty or doubled version is reported', () => {
 // Date
 
 test('the date is the date of the last commit that changed the folder, in its own time zone', () => {
-	const repo = completeRepo();
-	// 23:30 on 18 November in UTC+1. In UTC+2 it would already be the 19th.
-	commit(repo, 'website/page.txt', 'later', '2026-12-05T12:00:00+01:00');
-	assert.equal(readCommitDate(repo, spellCheckFolder), '2026-11-18');
+	// The commit in spell_check/ is at 23:30 on 18 November in UTC+1. In UTC+2 it
+	// would already be the 19th. The later commit outside spell_check/ does not count.
+	assert.equal(readCommitDate(gitRepo(), spellCheckFolder), '2026-11-18');
 });
 
 test('a folder without any commit is reported', () => {
-	assert.throws(() => readCommitDate(completeRepo(), 'other'), /no git commit changed other\//);
+	assert.throws(() => readCommitDate(gitRepo(), 'other'), /no git commit changed other\//);
 });
 
 test('a shallow clone is reported with a hint for GitHub Actions', () => {
-	const repo = completeRepo();
-	commit(repo, 'website/page.txt', 'later');
-	const clone = join(tempFolder, `clone-${++repoCount}`);
-	execFileSync('git', ['clone', '--quiet', '--depth', '1', pathToFileURL(repo).href, clone], { stdio: 'ignore' });
+	const clone = join(tempFolder, `clone-${++folderCount}`);
+	execFileSync('git', ['clone', '--quiet', '--depth', '1', pathToFileURL(gitRepo()).href, clone], { stdio: 'ignore', env: gitEnv });
 	assert.throws(() => readCommitDate(clone, spellCheckFolder), /shallow clone.*fetch-depth: 0/);
 });
 
-// Everything together
+// Download files and version
 
-test('reads version, date and the files to copy', () => {
-	const repo = completeRepo();
-	assert.deepEqual(readRelease(repo), {
+test('reads the version and the files to copy', () => {
+	const folder = downloadFolder();
+	assert.deepEqual(readDownloads(folder), {
 		version: '1.2.0',
-		date: '2026-11-18',
 		files: [
-			{ id: 'libreOffice', source: join(repo, downloads.libreOffice.source), target: `downloads/${downloads.libreOffice.fileName}` },
-			{ id: 'word', source: join(repo, downloads.word.source), target: `downloads/${downloads.word.fileName}` },
+			{ id: 'libreOffice', source: join(folder, downloads.libreOffice.source), target: `downloads/${downloads.libreOffice.fileName}` },
+			{ id: 'word', source: join(folder, downloads.word.source), target: `downloads/${downloads.word.fileName}` },
 		],
 	});
 });
 
 test('a missing download file is reported by its path', () => {
 	for (const download of Object.values(downloads)) {
-		const repo = completeRepo();
-		rmSync(join(repo, download.source));
-		assert.throws(() => readRelease(repo), (error: Error) => error.message.includes(`the file ${download.source} does not exist`));
+		const folder = downloadFolder();
+		rmSync(join(folder, download.source));
+		assert.throws(() => readDownloads(folder), (error: Error) => error.message.includes(`the file ${download.source} does not exist`));
 	}
 });
 
 test('a LibreOffice file without description.xml is reported', () => {
-	const repo = completeRepo();
+	const folder = downloadFolder();
 	// Same length, so the archive stays valid: the reader now finds no description.xml.
 	const renamed = Buffer.from(testOxt.toString('latin1').replaceAll('description.xml', 'description.txt'), 'latin1');
-	writeFile(repo, downloads.libreOffice.source, renamed);
-	assert.throws(() => readRelease(repo), /from description\.xml in .*: the file is missing/);
+	writeFile(folder, downloads.libreOffice.source, renamed);
+	assert.throws(() => readDownloads(folder), /from description\.xml in .*: the file is missing/);
 });
 
 test('a LibreOffice file that is no zip archive is reported', () => {
-	const repo = completeRepo();
-	writeFile(repo, downloads.libreOffice.source, 'not a zip archive');
-	assert.throws(() => readRelease(repo), /from description\.xml in .*: The file is not a zip archive/);
+	const folder = downloadFolder();
+	writeFile(folder, downloads.libreOffice.source, 'not a zip archive');
+	assert.throws(() => readDownloads(folder), /from description\.xml in .*: The file is not a zip archive/);
 });
 
 test('no download comes from a folder that is never published', () => {

@@ -45,9 +45,18 @@ export function readVersion(xml: string): string {
 	return values[0] as string;
 }
 
+/**
+ * The environment for git without variables like GIT_DIR. Git sets them, for
+ * example while a git hook runs, and they would win over `cwd`. Without them,
+ * git always works on the repo of the folder it runs in.
+ */
+export function gitEnvironment(): NodeJS.ProcessEnv {
+	return Object.fromEntries(Object.entries(process.env).filter(([name]) => !name.startsWith('GIT_')));
+}
+
 function git(repoRoot: string, args: string[]): string {
 	try {
-		return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
+		return execFileSync('git', args, { cwd: repoRoot, env: gitEnvironment(), encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 	} catch (error) {
 		const details = (String((error as { stderr?: unknown }).stderr ?? '').trim() || (error as Error).message);
 		throw new Error(`${prefix} "git ${args.join(' ')}" failed in ${repoRoot}: ${details}`);
@@ -103,18 +112,21 @@ function readReleaseVersion(repoRoot: string): string {
 }
 
 /**
- * Checks the download files and reads version and date.
+ * Checks the download files and reads the version. Needs no git, so the tests
+ * can use a plain folder.
  * `repoRoot` is the top folder of the repo, the one that holds `spell_check/`.
  */
-export function readRelease(repoRoot: string): Release {
+export function readDownloads(repoRoot: string): Omit<Release, 'date'> {
 	const files = (Object.keys(downloads) as DownloadId[]).map((id) => {
 		const { source } = downloads[id];
 		checkFile(repoRoot, id, source);
 		return { id, source: join(repoRoot, source), target: downloadPath(id) };
 	});
-	return {
-		version: readReleaseVersion(repoRoot),
-		date: readCommitDate(repoRoot, spellCheckFolder),
-		files,
-	};
+	return { version: readReleaseVersion(repoRoot), files };
+}
+
+/** Checks the download files and reads version and date. */
+export function readRelease(repoRoot: string): Release {
+	const { version, files } = readDownloads(repoRoot);
+	return { version, date: readCommitDate(repoRoot, spellCheckFolder), files };
 }
