@@ -17,8 +17,10 @@ export default {
 	},
 	install: {
 		download: '[[frr:labels.install.download]]',
+		file: '[[frr:labels.install.file]]',
 		version: '[[frr:labels.install.version]]',
 		date: '[[frr:labels.install.date]]',
+		stepsHeading: '[[frr:labels.install.stepsHeading]]',
 		openScreenshot: '[[frr:labels.install.openScreenshot]]',
 		phoneHint: '[[frr:labels.install.phoneHint]]',
 	},

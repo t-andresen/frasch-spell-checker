@@ -50,10 +50,14 @@ export type LabelsText = {
 	install: {
 		/** Text of the download button. */
 		download: Plain;
+		/** Label in front of the file name, in the download box. */
+		file: Plain;
 		/** Label in front of the version number. */
 		version: Plain;
 		/** Label in front of the date. */
 		date: Plain;
+		/** Heading above the numbered steps. */
+		stepsHeading: Plain;
 		/** Text of the link that opens a screenshot in full size. */
 		openScreenshot: Plain;
 		/** Hint for phone visitors that the installation happens on a computer. */

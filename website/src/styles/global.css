@@ -5,7 +5,8 @@
  *   1. Design values (colours, type, spacing) as custom properties
  *   2. Base styles for plain HTML elements
  *   3. Page frame: skip link, flag stripe, header, main area, footer
- *   4. Building blocks: lead text, button, action row, tile, note box
+ *   4. Building blocks: lead text, button, action row, tile, note box,
+ *      and for the install pages: phone hint, download box, steps, screenshot
  *   5. Movement and special display modes
  *
  * The look follows a printed dictionary page: serif text on near-white paper,
@@ -722,6 +723,104 @@ main > :last-child {
 .tiles + .note,
 .note:has(+ .tiles) {
 	max-inline-size: none;
+}
+
+/*
+ * Phone hint: a note box on the install pages that says the installation
+ * happens on a computer. Only a phone or tablet shows it: a narrow window, or
+ * a device whose main pointer is a finger. `components/InstallPage.astro`
+ */
+.phone-hint {
+	display: none;
+}
+
+@media (max-width: 36rem), (pointer: coarse) {
+	.phone-hint {
+		display: block;
+	}
+}
+
+/*
+ * Download box: the download button with file name, version and date below it.
+ * A ruled box like a tile, but it is no link itself. `components/DownloadBox.astro`
+ */
+.download-box {
+	max-inline-size: var(--measure);
+	margin-block: var(--space-xl);
+	padding: var(--space-l);
+	border: var(--rule-thin) solid var(--ink);
+	border-radius: var(--radius);
+	background: var(--surface);
+}
+
+.download-box .actions {
+	margin-block: 0 var(--space-m);
+}
+
+/* File, version and date in one row that wraps. Each label is bold, its value follows it. */
+.download-facts {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-2xs) var(--space-xl);
+	margin: 0;
+	font-size: var(--text-small);
+}
+
+.download-facts div {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 var(--space-xs);
+}
+
+.download-facts dt {
+	font-weight: 700;
+}
+
+.download-facts dd {
+	margin: 0;
+}
+
+/* Steps: the numbered list of an install page. The number stands out to the left like a headword. */
+.steps {
+	padding-inline-start: 2em;
+}
+
+.steps > li {
+	padding-inline-start: var(--space-xs);
+}
+
+.steps > li + li {
+	margin-block-start: var(--space-xl);
+}
+
+.steps > li::marker {
+	font-weight: 700;
+}
+
+.steps > li > :last-child {
+	margin-block-end: 0;
+}
+
+/* Screenshot of a step, as wide as the text at most, with a link to the full size below. `components/Screenshot.astro` */
+.screenshot {
+	max-inline-size: var(--measure);
+	margin: var(--space-m) 0 0;
+}
+
+/* The thin frame sets a white program window apart from the paper. */
+.screenshot img {
+	border: var(--rule-thin) solid var(--hairline);
+	border-radius: var(--radius);
+}
+
+.screenshot figcaption {
+	font-size: var(--text-small);
+}
+
+.screenshot figcaption a {
+	display: inline-flex;
+	align-items: center;
+	min-block-size: var(--target);
 }
 
 /* ---------------------------------------------------------------------------

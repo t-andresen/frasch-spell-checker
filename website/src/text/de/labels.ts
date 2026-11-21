@@ -17,8 +17,10 @@ export default {
 	},
 	install: {
 		download: '[[de:labels.install.download]]',
+		file: '[[de:labels.install.file]]',
 		version: '[[de:labels.install.version]]',
 		date: '[[de:labels.install.date]]',
+		stepsHeading: '[[de:labels.install.stepsHeading]]',
 		openScreenshot: '[[de:labels.install.openScreenshot]]',
 		phoneHint: '[[de:labels.install.phoneHint]]',
 	},

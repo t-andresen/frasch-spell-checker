@@ -31,7 +31,7 @@ Run all of them in `website/`. The Node version is pinned in `website/.nvmrc` an
 | `npm run build` | Type check, then build into `website/dist/`, then the checks of the built site |
 | `npm run preview` | Serves the finished build from `website/dist/` |
 | `npm test` | Tests of the text markup and of the checks of the built site |
-| `npm run check:launch` | Fails and lists every placeholder that is left in `website/src/`. Not part of the build, because placeholders are expected until all text is written |
+| `npm run check:launch` | Fails and lists every placeholder that is left in `website/src/` and every screenshot that is still missing. Not part of the build, because placeholders and missing screenshots are expected until all text is written |
 
 An agent starts the local preview with `npx astro dev --background` and stops it with `npx astro dev stop`, so the command does not block the session.
 
@@ -49,8 +49,8 @@ Run `npm run build` before you open a pull request. It must pass.
 - **All styles are in one file**, `website/src/styles/global.css`. No `<style>` blocks in components and no `style` attributes. Colours, type sizes and spacing are custom properties at the top of that file. Use them instead of new values. A new colour needs a value for the light and for the dark version, and its contrast must meet WCAG AA in both.
 - **Who the site is for is described in `PRODUCT.md`** at the top of the repo: users, purpose, brand and principles. It sums up issue 2 for design work. If the two disagree, issue 2 is right.
 - **The look is described in `DESIGN.md`** at the top of the repo: colours, type, spacing and building blocks, with their rules. Read it before you change the look. The stylesheet is the source. If the two disagree, bring `DESIGN.md` up to date. `.impeccable/design.json` holds the same values as data, and `.impeccable/surfaces/` holds the design brief of the layout.
-- **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, and `NoteBox.astro`. The class `lead` marks the intro paragraph below the page title. The class `actions` marks a paragraph that holds a button and a smaller link next to it. Each component file starts with an example of its use.
-- **The content of a page** is one component, for example `components/StartPage.astro` and `components/AboutPage.astro`. The page files of the three languages under `website/src/pages/` only call it. So a page looks the same in every language. The legal page is the exception, see "Legal page" below.
+- **Building blocks** are in `website/src/components/`: `Button.astro`, `Tile.astro` inside `TileGroup.astro`, `NoteBox.astro`, and for the install pages `DownloadBox.astro` and `Screenshot.astro`. The class `lead` marks the intro paragraph below the page title. The class `actions` marks a paragraph that holds a button and a smaller link next to it. Each component file starts with an example of its use.
+- **The content of a page** is one component, for example `components/StartPage.astro` and `components/AboutPage.astro`. The page files of the three languages under `website/src/pages/` only call it. So a page looks the same in every language. The legal page is the exception, see "Legal page" below. The two install pages, `components/LibreOfficePage.astro` and `components/WordPage.astro`, share `components/InstallPage.astro` and only pass it their structure module and their text.
 - **The site name and the address for feedback by mail** are defined only in `website/src/structure/site.ts`. The mail address is a placeholder until issue 22. Build a mail link with `mailLink(address, subject)` from `website/src/lib/mailLink.ts`.
 - **The icon** is `website/public/icon.svg`, with `icon-128.png` for browsers that cannot show SVG icons. These are the only copies of the icon in the repo.
 
@@ -105,6 +105,15 @@ The legal page (Impressum and privacy statement) is long running text. So it is 
 - **A link in the Markdown text** has no helper like `pageLink`. The check of the built site reports a link that leads nowhere.
 - The build stops when a required file is missing, a file is not named after a language, a `title` or a `translationNote` is missing, or the text has a heading with one `#`. The rules are in `lib/legalFiles.ts`.
 
+### Install pages
+
+The steps and notes of the LibreOffice and the MS Word page, their order and their screenshots are in `structure/libreOffice.ts` and `structure/word.ts`. The language modules supply only the text. A step with a screenshot needs an image description in every language.
+
+- **Screenshots** are PNG files in `website/src/screenshots/`, under the file name that the structure module gives, exactly in upper and lower case. The build copies them into the site and reads their size. The page shows each one at the width of the text, with a plain link to the full size.
+- **A missing screenshot** shows a neutral placeholder image, `website/public/screenshot-placeholder.svg`, and `npm run check:launch` lists it. So the build passes while the screenshots are not taken yet.
+- **The link to the LibreOffice extension site** is `extensionSiteAddress` in `structure/libreOffice.ts`. While it is empty, the page shows no link. The build stops if it is not empty and does not start with `https://`.
+- **The hint for phone visitors** shows only on a narrow window or on a device whose main pointer is a finger, through CSS. A wide window on a computer does not show it.
+
 ### Files that Node runs directly
 
-In `website/src/`: `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/legalFiles.ts`, `lib/formatDate.ts`, `i18n/languages.ts` and `structure/downloads.ts`. All of `website/build/lib/` and `website/build/scripts/`. These files and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.
+In `website/src/`: `lib/placeholders.ts`, `lib/richText.ts`, `lib/mailLink.ts`, `lib/legalFiles.ts`, `lib/formatDate.ts`, `i18n/languages.ts`, `structure/downloads.ts`, `structure/install.ts`, `structure/libreOffice.ts` and `structure/word.ts`. All of `website/build/lib/` and `website/build/scripts/`. These files and the test files run in Node without Astro. They must not import from Astro, and their imports end in `.ts`.

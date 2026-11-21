@@ -1,0 +1,35 @@
+---
+/**
+ * Screenshot of one install step, at a size that fits the text column, with a
+ * plain link below it that opens the image in full size.
+ *
+ *   <Screenshot file="libreoffice-open-file.png" description={step.imageDescription} />
+ *
+ * - `file`: the file name from the structure module, for example `src/structure/libreOffice.ts`.
+ * - `description`: the image description for visitors who cannot see the image.
+ *
+ * While the file does not exist in `src/screenshots/`, a neutral placeholder
+ * image stands in its place. See `src/lib/screenshots.ts`.
+ */
+import { getLanguage } from '../i18n/languages';
+import { getScreenshot } from '../lib/screenshots';
+import { getText } from '../text';
+import type { Plain } from '../text/types';
+
+interface Props {
+	file: string;
+	description: Plain;
+}
+
+const { file, description } = Astro.props;
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const labels = getText(language.key).labels.install;
+const image = getScreenshot(file);
+---
+
+<figure class="screenshot">
+	<img src={image.src} width={image.width} height={image.height} alt={description} loading="lazy" decoding="async" />
+	<figcaption><a href={image.src}>{labels.openScreenshot}</a></figcaption>
+</figure>

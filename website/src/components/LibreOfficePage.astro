@@ -1,0 +1,29 @@
+---
+/**
+ * The content of the LibreOffice install page. The page files of all three languages use it:
+ *
+ *   <LibreOfficePage />
+ *
+ * The shared parts are in `InstallPage.astro`. This page adds the smaller link
+ * to the LibreOffice extension site next to the download button. The link is
+ * left out while `extensionSiteAddress` in `src/structure/libreOffice.ts` is empty.
+ */
+import { getLanguage } from '../i18n/languages';
+import { extensionSiteAddress, libreOfficePage } from '../structure/libreOffice';
+import { getText } from '../text';
+import InstallPage from './InstallPage.astro';
+
+// Astro works out the language from the address, using the `i18n` settings in `astro.config.ts`.
+const language = getLanguage(Astro.currentLocale);
+const text = getText(language.key).libreOffice;
+
+if (extensionSiteAddress !== '' && !extensionSiteAddress.startsWith('https://')) {
+	throw new Error(
+		`extensionSiteAddress in src/structure/libreOffice.ts must start with "https://" or be empty. It is "${extensionSiteAddress}".`,
+	);
+}
+---
+
+<InstallPage page="libreOffice" structure={libreOfficePage} text={text}>
+	{extensionSiteAddress !== '' && <a href={extensionSiteAddress}>{text.extensionSiteLink}</a>}
+</InstallPage>
