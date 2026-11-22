@@ -9,3 +9,7 @@ website/.astro/
 
 # npm logs
 npm-debug.log*
+
+# Skills
+.claude/skills/impeccable/*
+.claude/agents/impeccable*

@@ -18,6 +18,7 @@ gh issue view 2 --repo t-andresen/frasch-spell-checker
 6. **One issue per session.** Work on a branch, open a pull request that references the issue, and let the maintainer merge it.
 7. **Stay inside the issue.** If you notice something outside its scope, leave a comment or open a new issue.
 8. **Say what you could not verify.** Do not present untested steps as tested.
+9. **Start working from current main by default.** When working in a separate worktree update to latest main unless there is a specific reason not to. When working in the primary checkout and the current branch is behind, ask if you should update.
 
 ## Website commands
 
