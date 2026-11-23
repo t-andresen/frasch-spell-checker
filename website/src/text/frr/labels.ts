@@ -5,15 +5,15 @@ export default {
 	menuName: 'Hoodmenüü',
 	menuButton: 'Menüü',
 	menu: {
-		start: 'Hüüsesid',
+		start: 'Hüüse',
 		libreOffice: 'LibreOffice',
 		word: 'MS Word',
 		about: 'Am e sid',
 	},
-	languageSwitcherName: 'Spräke Keer',
+	languageSwitcherName: 'Spräke ütwool',
 	footer: {
-		legal: 'Impräsem',
-		repo: 'Kwäldataie aw Github',
+		legal: 'Impräsem än dooteschööl',
+		repo: 'GitHub',
 	},
 	install: {
 		download: 'Download',
