@@ -39,7 +39,7 @@ const text = getText(language.key);
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="color-scheme" content="light dark" />
-		<title>{title} – {siteName}</title>
+		<title>{page === 'start' ? title : `${title} – ${siteName}`}</title>
 		<!-- A browser that cannot show the SVG icon takes the PNG. -->
 		<link rel="icon" type="image/png" sizes="128x128" href={fileLink('icon-128.png')} />
 		<link rel="icon" type="image/svg+xml" href={fileLink('icon.svg')} />
